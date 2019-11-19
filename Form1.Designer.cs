@@ -32,28 +32,38 @@
             this.BitmapCanvas = new System.Windows.Forms.PictureBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton5 = new System.Windows.Forms.RadioButton();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.RemoveVertexRadioButton = new System.Windows.Forms.RadioButton();
+            this.AddPolygonRadioButton = new System.Windows.Forms.RadioButton();
+            this.AddVertexRadioButton = new System.Windows.Forms.RadioButton();
+            this.SelectFigureRadioButton = new System.Windows.Forms.RadioButton();
+            this.SelectVertexRadioButton = new System.Windows.Forms.RadioButton();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.ClearRandomsButton = new System.Windows.Forms.Button();
+            this.AnimateCheckBox = new System.Windows.Forms.CheckBox();
+            this.PolygonSpeedSlider = new System.Windows.Forms.TrackBar();
             this.label1 = new System.Windows.Forms.Label();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.button3 = new System.Windows.Forms.Button();
+            this.LoadMapButton = new System.Windows.Forms.Button();
             this.BumpMapName = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
+            this.LoadTextureButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.radioButton8 = new System.Windows.Forms.RadioButton();
+            this.BumpRadioButton = new System.Windows.Forms.RadioButton();
             this.TextureFileName = new System.Windows.Forms.Label();
-            this.radioButton7 = new System.Windows.Forms.RadioButton();
-            this.radioButton6 = new System.Windows.Forms.RadioButton();
+            this.TextureRadioButton = new System.Windows.Forms.RadioButton();
+            this.VertexColorRadioButton = new System.Windows.Forms.RadioButton();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.KsValue = new System.Windows.Forms.Label();
+            this.KdValue = new System.Windows.Forms.Label();
+            this.KsSlider = new System.Windows.Forms.TrackBar();
+            this.label5 = new System.Windows.Forms.Label();
+            this.KdSlider = new System.Windows.Forms.TrackBar();
+            this.label4 = new System.Windows.Forms.Label();
+            this.LampCheckBox = new System.Windows.Forms.CheckBox();
+            this.SetColorButton = new System.Windows.Forms.Button();
+            this.ColorPictureBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -69,11 +79,16 @@
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PolygonSpeedSlider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.KsSlider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.KdSlider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ColorPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -91,9 +106,10 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.AutoScroll = true;
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(1078, 558);
-            this.splitContainer1.SplitterDistance = 880;
+            this.splitContainer1.Size = new System.Drawing.Size(704, 681);
+            this.splitContainer1.SplitterDistance = 512;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -105,7 +121,7 @@
             this.BitmapCanvas.Location = new System.Drawing.Point(0, 0);
             this.BitmapCanvas.Margin = new System.Windows.Forms.Padding(0);
             this.BitmapCanvas.Name = "BitmapCanvas";
-            this.BitmapCanvas.Size = new System.Drawing.Size(880, 558);
+            this.BitmapCanvas.Size = new System.Drawing.Size(512, 681);
             this.BitmapCanvas.TabIndex = 0;
             this.BitmapCanvas.TabStop = false;
             this.BitmapCanvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.CanvasMouseDown);
@@ -128,96 +144,96 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer3);
-            this.splitContainer2.Size = new System.Drawing.Size(196, 558);
+            this.splitContainer2.Size = new System.Drawing.Size(190, 681);
             this.splitContainer2.SplitterDistance = 155;
             this.splitContainer2.TabIndex = 22;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.radioButton3);
-            this.groupBox1.Controls.Add(this.radioButton2);
-            this.groupBox1.Controls.Add(this.radioButton5);
-            this.groupBox1.Controls.Add(this.radioButton4);
-            this.groupBox1.Controls.Add(this.radioButton1);
+            this.groupBox1.Controls.Add(this.RemoveVertexRadioButton);
+            this.groupBox1.Controls.Add(this.AddPolygonRadioButton);
+            this.groupBox1.Controls.Add(this.AddVertexRadioButton);
+            this.groupBox1.Controls.Add(this.SelectFigureRadioButton);
+            this.groupBox1.Controls.Add(this.SelectVertexRadioButton);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(196, 155);
+            this.groupBox1.Size = new System.Drawing.Size(190, 155);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Własne wielokąty";
             // 
-            // radioButton3
+            // RemoveVertexRadioButton
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.radioButton3.Location = new System.Drawing.Point(3, 124);
-            this.radioButton3.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.radioButton3.Size = new System.Drawing.Size(190, 27);
-            this.radioButton3.TabIndex = 31;
-            this.radioButton3.Text = "Usuń wierzchołek";
-            this.radioButton3.UseVisualStyleBackColor = true;
-            this.radioButton3.CheckedChanged += new System.EventHandler(this.radioButton3_CheckedChanged);
+            this.RemoveVertexRadioButton.AutoSize = true;
+            this.RemoveVertexRadioButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.RemoveVertexRadioButton.Location = new System.Drawing.Point(3, 124);
+            this.RemoveVertexRadioButton.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
+            this.RemoveVertexRadioButton.Name = "RemoveVertexRadioButton";
+            this.RemoveVertexRadioButton.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
+            this.RemoveVertexRadioButton.Size = new System.Drawing.Size(184, 27);
+            this.RemoveVertexRadioButton.TabIndex = 31;
+            this.RemoveVertexRadioButton.Text = "Usuń wierzchołek";
+            this.RemoveVertexRadioButton.UseVisualStyleBackColor = true;
+            this.RemoveVertexRadioButton.CheckedChanged += new System.EventHandler(this.RemoveVertexRadioChanged);
             // 
-            // radioButton2
+            // AddPolygonRadioButton
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.radioButton2.Location = new System.Drawing.Point(3, 97);
-            this.radioButton2.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.radioButton2.Size = new System.Drawing.Size(190, 27);
-            this.radioButton2.TabIndex = 30;
-            this.radioButton2.Text = "Dodaj nowy wielokąt";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
+            this.AddPolygonRadioButton.AutoSize = true;
+            this.AddPolygonRadioButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.AddPolygonRadioButton.Location = new System.Drawing.Point(3, 97);
+            this.AddPolygonRadioButton.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
+            this.AddPolygonRadioButton.Name = "AddPolygonRadioButton";
+            this.AddPolygonRadioButton.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
+            this.AddPolygonRadioButton.Size = new System.Drawing.Size(184, 27);
+            this.AddPolygonRadioButton.TabIndex = 30;
+            this.AddPolygonRadioButton.Text = "Dodaj nowy wielokąt";
+            this.AddPolygonRadioButton.UseVisualStyleBackColor = true;
+            this.AddPolygonRadioButton.CheckedChanged += new System.EventHandler(this.AddPolygonRadioChanged);
             // 
-            // radioButton5
+            // AddVertexRadioButton
             // 
-            this.radioButton5.AutoSize = true;
-            this.radioButton5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.radioButton5.Location = new System.Drawing.Point(3, 70);
-            this.radioButton5.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.radioButton5.Name = "radioButton5";
-            this.radioButton5.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.radioButton5.Size = new System.Drawing.Size(190, 27);
-            this.radioButton5.TabIndex = 29;
-            this.radioButton5.Text = "Dodaj wierzchołek na kraw.";
-            this.radioButton5.UseVisualStyleBackColor = true;
-            this.radioButton5.CheckedChanged += new System.EventHandler(this.radioButton5_CheckedChanged);
+            this.AddVertexRadioButton.AutoSize = true;
+            this.AddVertexRadioButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.AddVertexRadioButton.Location = new System.Drawing.Point(3, 70);
+            this.AddVertexRadioButton.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
+            this.AddVertexRadioButton.Name = "AddVertexRadioButton";
+            this.AddVertexRadioButton.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
+            this.AddVertexRadioButton.Size = new System.Drawing.Size(184, 27);
+            this.AddVertexRadioButton.TabIndex = 29;
+            this.AddVertexRadioButton.Text = "Dodaj wierzchołek na kraw.";
+            this.AddVertexRadioButton.UseVisualStyleBackColor = true;
+            this.AddVertexRadioButton.CheckedChanged += new System.EventHandler(this.AddVertexRadioChanged);
             // 
-            // radioButton4
+            // SelectFigureRadioButton
             // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.radioButton4.Location = new System.Drawing.Point(3, 43);
-            this.radioButton4.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.radioButton4.Size = new System.Drawing.Size(190, 27);
-            this.radioButton4.TabIndex = 28;
-            this.radioButton4.Text = "Zaznacz figurę";
-            this.radioButton4.UseVisualStyleBackColor = true;
-            this.radioButton4.CheckedChanged += new System.EventHandler(this.radioButton4_CheckedChanged);
+            this.SelectFigureRadioButton.AutoSize = true;
+            this.SelectFigureRadioButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.SelectFigureRadioButton.Location = new System.Drawing.Point(3, 43);
+            this.SelectFigureRadioButton.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
+            this.SelectFigureRadioButton.Name = "SelectFigureRadioButton";
+            this.SelectFigureRadioButton.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
+            this.SelectFigureRadioButton.Size = new System.Drawing.Size(184, 27);
+            this.SelectFigureRadioButton.TabIndex = 28;
+            this.SelectFigureRadioButton.Text = "Zaznacz figurę";
+            this.SelectFigureRadioButton.UseVisualStyleBackColor = true;
+            this.SelectFigureRadioButton.CheckedChanged += new System.EventHandler(this.SelectFigureRadioChanged);
             // 
-            // radioButton1
+            // SelectVertexRadioButton
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = true;
-            this.radioButton1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.radioButton1.Location = new System.Drawing.Point(3, 16);
-            this.radioButton1.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.radioButton1.Size = new System.Drawing.Size(190, 27);
-            this.radioButton1.TabIndex = 27;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Zaznacz wierzchołek/krawędź";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.SelectVertexRadioButton.AutoSize = true;
+            this.SelectVertexRadioButton.Checked = true;
+            this.SelectVertexRadioButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.SelectVertexRadioButton.Location = new System.Drawing.Point(3, 16);
+            this.SelectVertexRadioButton.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
+            this.SelectVertexRadioButton.Name = "SelectVertexRadioButton";
+            this.SelectVertexRadioButton.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
+            this.SelectVertexRadioButton.Size = new System.Drawing.Size(184, 27);
+            this.SelectVertexRadioButton.TabIndex = 27;
+            this.SelectVertexRadioButton.TabStop = true;
+            this.SelectVertexRadioButton.Text = "Zaznacz wierzchołek/krawędź";
+            this.SelectVertexRadioButton.UseVisualStyleBackColor = true;
+            this.SelectVertexRadioButton.CheckedChanged += new System.EventHandler(this.SelectVertexRadioChanged);
             // 
             // splitContainer3
             // 
@@ -235,66 +251,66 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
-            this.splitContainer3.Size = new System.Drawing.Size(196, 399);
+            this.splitContainer3.Size = new System.Drawing.Size(190, 522);
             this.splitContainer3.SplitterDistance = 115;
             this.splitContainer3.TabIndex = 0;
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.button1);
-            this.groupBox2.Controls.Add(this.checkBox1);
-            this.groupBox2.Controls.Add(this.trackBar1);
+            this.groupBox2.Controls.Add(this.ClearRandomsButton);
+            this.groupBox2.Controls.Add(this.AnimateCheckBox);
+            this.groupBox2.Controls.Add(this.PolygonSpeedSlider);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(196, 115);
+            this.groupBox2.Size = new System.Drawing.Size(190, 115);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Animacja";
             // 
-            // button1
+            // ClearRandomsButton
             // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.button1.Location = new System.Drawing.Point(3, 86);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(190, 23);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "Wyczyść losowe wielokąty";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.Button1_Click_1);
+            this.ClearRandomsButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ClearRandomsButton.Location = new System.Drawing.Point(3, 86);
+            this.ClearRandomsButton.Name = "ClearRandomsButton";
+            this.ClearRandomsButton.Size = new System.Drawing.Size(184, 23);
+            this.ClearRandomsButton.TabIndex = 9;
+            this.ClearRandomsButton.Text = "Wyczyść losowe wielokąty";
+            this.ClearRandomsButton.UseVisualStyleBackColor = true;
+            this.ClearRandomsButton.Click += new System.EventHandler(this.ClearRandoms_Click);
             // 
-            // checkBox1
+            // AnimateCheckBox
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.checkBox1.Location = new System.Drawing.Point(3, 59);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.checkBox1.Size = new System.Drawing.Size(190, 27);
-            this.checkBox1.TabIndex = 8;
-            this.checkBox1.Text = "Animuj";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
+            this.AnimateCheckBox.AutoSize = true;
+            this.AnimateCheckBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.AnimateCheckBox.Location = new System.Drawing.Point(3, 59);
+            this.AnimateCheckBox.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            this.AnimateCheckBox.Name = "AnimateCheckBox";
+            this.AnimateCheckBox.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
+            this.AnimateCheckBox.Size = new System.Drawing.Size(184, 27);
+            this.AnimateCheckBox.TabIndex = 8;
+            this.AnimateCheckBox.Text = "Animuj";
+            this.AnimateCheckBox.UseVisualStyleBackColor = true;
+            this.AnimateCheckBox.CheckedChanged += new System.EventHandler(this.AnimateCheckBoxChanged);
             // 
-            // trackBar1
+            // PolygonSpeedSlider
             // 
-            this.trackBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.trackBar1.LargeChange = 10;
-            this.trackBar1.Location = new System.Drawing.Point(3, 29);
-            this.trackBar1.Margin = new System.Windows.Forms.Padding(0);
-            this.trackBar1.Maximum = 100;
-            this.trackBar1.MaximumSize = new System.Drawing.Size(200, 30);
-            this.trackBar1.Minimum = 10;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(190, 30);
-            this.trackBar1.SmallChange = 10;
-            this.trackBar1.TabIndex = 7;
-            this.trackBar1.TickFrequency = 10;
-            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.trackBar1.Value = 50;
-            this.trackBar1.ValueChanged += new System.EventHandler(this.TrackBar1_ValueChanged);
+            this.PolygonSpeedSlider.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PolygonSpeedSlider.LargeChange = 10;
+            this.PolygonSpeedSlider.Location = new System.Drawing.Point(3, 29);
+            this.PolygonSpeedSlider.Margin = new System.Windows.Forms.Padding(0);
+            this.PolygonSpeedSlider.Maximum = 100;
+            this.PolygonSpeedSlider.MaximumSize = new System.Drawing.Size(200, 30);
+            this.PolygonSpeedSlider.Minimum = 10;
+            this.PolygonSpeedSlider.Name = "PolygonSpeedSlider";
+            this.PolygonSpeedSlider.Size = new System.Drawing.Size(184, 30);
+            this.PolygonSpeedSlider.SmallChange = 10;
+            this.PolygonSpeedSlider.TabIndex = 7;
+            this.PolygonSpeedSlider.TickFrequency = 10;
+            this.PolygonSpeedSlider.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.PolygonSpeedSlider.Value = 100;
+            this.PolygonSpeedSlider.ValueChanged += new System.EventHandler(this.SpeedSliderChanged);
             // 
             // label1
             // 
@@ -318,49 +334,52 @@
             // splitContainer4.Panel1
             // 
             this.splitContainer4.Panel1.Controls.Add(this.groupBox3);
-            this.splitContainer4.Size = new System.Drawing.Size(196, 280);
+            // 
+            // splitContainer4.Panel2
+            // 
+            this.splitContainer4.Panel2.Controls.Add(this.groupBox4);
+            this.splitContainer4.Size = new System.Drawing.Size(190, 403);
             this.splitContainer4.SplitterDistance = 200;
             this.splitContainer4.TabIndex = 0;
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.button3);
+            this.groupBox3.Controls.Add(this.LoadMapButton);
             this.groupBox3.Controls.Add(this.BumpMapName);
             this.groupBox3.Controls.Add(this.label2);
-            this.groupBox3.Controls.Add(this.button2);
+            this.groupBox3.Controls.Add(this.LoadTextureButton);
             this.groupBox3.Controls.Add(this.label3);
-            this.groupBox3.Controls.Add(this.radioButton8);
+            this.groupBox3.Controls.Add(this.BumpRadioButton);
             this.groupBox3.Controls.Add(this.TextureFileName);
-            this.groupBox3.Controls.Add(this.radioButton7);
-            this.groupBox3.Controls.Add(this.radioButton6);
+            this.groupBox3.Controls.Add(this.TextureRadioButton);
+            this.groupBox3.Controls.Add(this.VertexColorRadioButton);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(196, 200);
+            this.groupBox3.Size = new System.Drawing.Size(190, 200);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Wypełnienie";
             // 
-            // button3
+            // LoadMapButton
             // 
-            this.button3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.button3.Location = new System.Drawing.Point(3, 166);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(190, 23);
-            this.button3.TabIndex = 11;
-            this.button3.Text = "Wczytaj mapę";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.LoadMapButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.LoadMapButton.Location = new System.Drawing.Point(3, 166);
+            this.LoadMapButton.Name = "LoadMapButton";
+            this.LoadMapButton.Size = new System.Drawing.Size(184, 23);
+            this.LoadMapButton.TabIndex = 11;
+            this.LoadMapButton.Text = "Wczytaj mapę";
+            this.LoadMapButton.UseVisualStyleBackColor = true;
+            this.LoadMapButton.Click += new System.EventHandler(this.LoadBump_Click);
             // 
             // BumpMapName
             // 
             this.BumpMapName.Location = new System.Drawing.Point(70, 143);
             this.BumpMapName.Name = "BumpMapName";
-            this.BumpMapName.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
             this.BumpMapName.Size = new System.Drawing.Size(119, 23);
             this.BumpMapName.TabIndex = 10;
             this.BumpMapName.Text = "(brak mapy)";
-            this.BumpMapName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.BumpMapName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label2
             // 
@@ -374,17 +393,17 @@
             this.label2.Text = "Bump map:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // button2
+            // LoadTextureButton
             // 
-            this.button2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.button2.Location = new System.Drawing.Point(3, 120);
-            this.button2.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(190, 23);
-            this.button2.TabIndex = 8;
-            this.button2.Text = "Wczytaj teksturę";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.LoadTextureButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.LoadTextureButton.Location = new System.Drawing.Point(3, 120);
+            this.LoadTextureButton.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
+            this.LoadTextureButton.Name = "LoadTextureButton";
+            this.LoadTextureButton.Size = new System.Drawing.Size(184, 23);
+            this.LoadTextureButton.TabIndex = 8;
+            this.LoadTextureButton.Text = "Wczytaj teksturę";
+            this.LoadTextureButton.UseVisualStyleBackColor = true;
+            this.LoadTextureButton.Click += new System.EventHandler(this.LoadTextureButton_Click);
             // 
             // label3
             // 
@@ -398,69 +417,182 @@
             this.label3.Text = "Tekstura:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // radioButton8
+            // BumpRadioButton
             // 
-            this.radioButton8.AutoSize = true;
-            this.radioButton8.Dock = System.Windows.Forms.DockStyle.Top;
-            this.radioButton8.Location = new System.Drawing.Point(3, 70);
-            this.radioButton8.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.radioButton8.Name = "radioButton8";
-            this.radioButton8.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.radioButton8.Size = new System.Drawing.Size(190, 27);
-            this.radioButton8.TabIndex = 4;
-            this.radioButton8.Text = "Tekstura + bump map";
-            this.radioButton8.UseVisualStyleBackColor = true;
-            this.radioButton8.CheckedChanged += new System.EventHandler(this.radioButton8_CheckedChanged);
+            this.BumpRadioButton.AutoSize = true;
+            this.BumpRadioButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.BumpRadioButton.Location = new System.Drawing.Point(3, 70);
+            this.BumpRadioButton.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
+            this.BumpRadioButton.Name = "BumpRadioButton";
+            this.BumpRadioButton.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
+            this.BumpRadioButton.Size = new System.Drawing.Size(184, 27);
+            this.BumpRadioButton.TabIndex = 4;
+            this.BumpRadioButton.Text = "Tekstura + bump map";
+            this.BumpRadioButton.UseVisualStyleBackColor = true;
+            this.BumpRadioButton.CheckedChanged += new System.EventHandler(this.BumpRadioChanged);
             // 
             // TextureFileName
             // 
             this.TextureFileName.Location = new System.Drawing.Point(67, 97);
             this.TextureFileName.Name = "TextureFileName";
-            this.TextureFileName.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
             this.TextureFileName.Size = new System.Drawing.Size(119, 23);
             this.TextureFileName.TabIndex = 2;
             this.TextureFileName.Text = "(brak tekstury)";
-            this.TextureFileName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.TextureFileName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // radioButton7
+            // TextureRadioButton
             // 
-            this.radioButton7.AutoSize = true;
-            this.radioButton7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.radioButton7.Location = new System.Drawing.Point(3, 43);
-            this.radioButton7.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.radioButton7.Name = "radioButton7";
-            this.radioButton7.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.radioButton7.Size = new System.Drawing.Size(190, 27);
-            this.radioButton7.TabIndex = 1;
-            this.radioButton7.Text = "Tekstura";
-            this.radioButton7.UseVisualStyleBackColor = true;
-            this.radioButton7.CheckedChanged += new System.EventHandler(this.radioButton7_CheckedChanged);
+            this.TextureRadioButton.AutoSize = true;
+            this.TextureRadioButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.TextureRadioButton.Location = new System.Drawing.Point(3, 43);
+            this.TextureRadioButton.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
+            this.TextureRadioButton.Name = "TextureRadioButton";
+            this.TextureRadioButton.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
+            this.TextureRadioButton.Size = new System.Drawing.Size(184, 27);
+            this.TextureRadioButton.TabIndex = 1;
+            this.TextureRadioButton.Text = "Tekstura";
+            this.TextureRadioButton.UseVisualStyleBackColor = true;
+            this.TextureRadioButton.CheckedChanged += new System.EventHandler(this.TextureRadioChanged);
             // 
-            // radioButton6
+            // VertexColorRadioButton
             // 
-            this.radioButton6.AutoSize = true;
-            this.radioButton6.Checked = true;
-            this.radioButton6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.radioButton6.Location = new System.Drawing.Point(3, 16);
-            this.radioButton6.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.radioButton6.Name = "radioButton6";
-            this.radioButton6.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.radioButton6.Size = new System.Drawing.Size(190, 27);
-            this.radioButton6.TabIndex = 0;
-            this.radioButton6.TabStop = true;
-            this.radioButton6.Text = "Z wierzchołków (interpolacja)";
-            this.radioButton6.UseVisualStyleBackColor = true;
-            this.radioButton6.CheckedChanged += new System.EventHandler(this.radioButton6_CheckedChanged);
+            this.VertexColorRadioButton.AutoSize = true;
+            this.VertexColorRadioButton.Checked = true;
+            this.VertexColorRadioButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.VertexColorRadioButton.Location = new System.Drawing.Point(3, 16);
+            this.VertexColorRadioButton.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
+            this.VertexColorRadioButton.Name = "VertexColorRadioButton";
+            this.VertexColorRadioButton.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
+            this.VertexColorRadioButton.Size = new System.Drawing.Size(184, 27);
+            this.VertexColorRadioButton.TabIndex = 0;
+            this.VertexColorRadioButton.TabStop = true;
+            this.VertexColorRadioButton.Text = "Z wierzchołków (interpolacja)";
+            this.VertexColorRadioButton.UseVisualStyleBackColor = true;
+            this.VertexColorRadioButton.CheckedChanged += new System.EventHandler(this.VertexColorRadioChanged);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.ColorPictureBox);
+            this.groupBox4.Controls.Add(this.SetColorButton);
+            this.groupBox4.Controls.Add(this.KsValue);
+            this.groupBox4.Controls.Add(this.KdValue);
+            this.groupBox4.Controls.Add(this.KsSlider);
+            this.groupBox4.Controls.Add(this.label5);
+            this.groupBox4.Controls.Add(this.KdSlider);
+            this.groupBox4.Controls.Add(this.label4);
+            this.groupBox4.Controls.Add(this.LampCheckBox);
+            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox4.Location = new System.Drawing.Point(0, 0);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(190, 199);
+            this.groupBox4.TabIndex = 0;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Oświetlenie";
+            // 
+            // KsValue
+            // 
+            this.KsValue.AutoSize = true;
+            this.KsValue.Location = new System.Drawing.Point(156, 101);
+            this.KsValue.Name = "KsValue";
+            this.KsValue.Size = new System.Drawing.Size(22, 13);
+            this.KsValue.TabIndex = 6;
+            this.KsValue.Text = "0.5";
+            // 
+            // KdValue
+            // 
+            this.KdValue.AutoSize = true;
+            this.KdValue.Location = new System.Drawing.Point(156, 43);
+            this.KdValue.Name = "KdValue";
+            this.KdValue.Size = new System.Drawing.Size(22, 13);
+            this.KdValue.TabIndex = 5;
+            this.KdValue.Text = "0.5";
+            // 
+            // KsSlider
+            // 
+            this.KsSlider.Dock = System.Windows.Forms.DockStyle.Top;
+            this.KsSlider.Location = new System.Drawing.Point(3, 114);
+            this.KsSlider.Maximum = 100;
+            this.KsSlider.Name = "KsSlider";
+            this.KsSlider.Size = new System.Drawing.Size(184, 45);
+            this.KsSlider.TabIndex = 4;
+            this.KsSlider.TickFrequency = 10;
+            this.KsSlider.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.KsSlider.Value = 50;
+            this.KsSlider.ValueChanged += new System.EventHandler(this.KsSlider_ValueChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label5.Location = new System.Drawing.Point(3, 101);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(90, 13);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "Współczynnik Ks";
+            // 
+            // KdSlider
+            // 
+            this.KdSlider.Dock = System.Windows.Forms.DockStyle.Top;
+            this.KdSlider.Location = new System.Drawing.Point(3, 56);
+            this.KdSlider.Maximum = 100;
+            this.KdSlider.Name = "KdSlider";
+            this.KdSlider.Size = new System.Drawing.Size(184, 45);
+            this.KdSlider.TabIndex = 2;
+            this.KdSlider.TickFrequency = 10;
+            this.KdSlider.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.KdSlider.Value = 50;
+            this.KdSlider.ValueChanged += new System.EventHandler(this.KdSlider_ValueChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label4.Location = new System.Drawing.Point(3, 43);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(86, 13);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "Wpółczynnik Kd";
+            // 
+            // LampCheckBox
+            // 
+            this.LampCheckBox.AutoSize = true;
+            this.LampCheckBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.LampCheckBox.Location = new System.Drawing.Point(3, 16);
+            this.LampCheckBox.Name = "LampCheckBox";
+            this.LampCheckBox.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
+            this.LampCheckBox.Size = new System.Drawing.Size(184, 27);
+            this.LampCheckBox.TabIndex = 0;
+            this.LampCheckBox.Text = "Włącz lampę";
+            this.LampCheckBox.UseVisualStyleBackColor = true;
+            this.LampCheckBox.CheckedChanged += new System.EventHandler(this.LampCheckBox_CheckedChanged);
+            // 
+            // SetColorButton
+            // 
+            this.SetColorButton.Location = new System.Drawing.Point(68, 160);
+            this.SetColorButton.Name = "SetColorButton";
+            this.SetColorButton.Size = new System.Drawing.Size(112, 23);
+            this.SetColorButton.TabIndex = 7;
+            this.SetColorButton.Text = "Ustaw kolor światła";
+            this.SetColorButton.UseVisualStyleBackColor = true;
+            this.SetColorButton.Click += new System.EventHandler(this.SetColorButton_Click);
+            // 
+            // ColorPictureBox
+            // 
+            this.ColorPictureBox.Location = new System.Drawing.Point(14, 160);
+            this.ColorPictureBox.Name = "ColorPictureBox";
+            this.ColorPictureBox.Size = new System.Drawing.Size(40, 23);
+            this.ColorPictureBox.TabIndex = 8;
+            this.ColorPictureBox.TabStop = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1078, 558);
+            this.ClientSize = new System.Drawing.Size(704, 681);
             this.Controls.Add(this.splitContainer1);
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.MinimumSize = new System.Drawing.Size(723, 503);
+            this.MinimumSize = new System.Drawing.Size(720, 720);
             this.Name = "Form1";
             this.Text = "Zadanie 1";
             this.ResizeBegin += new System.EventHandler(this.Form1_ResizeEnd);
@@ -483,12 +615,18 @@
             this.splitContainer3.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PolygonSpeedSlider)).EndInit();
             this.splitContainer4.Panel1.ResumeLayout(false);
+            this.splitContainer4.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.KsSlider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.KdSlider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ColorPictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -499,28 +637,38 @@
         private System.Windows.Forms.PictureBox BitmapCanvas;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton5;
-        private System.Windows.Forms.RadioButton radioButton4;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton RemoveVertexRadioButton;
+        private System.Windows.Forms.RadioButton AddPolygonRadioButton;
+        private System.Windows.Forms.RadioButton AddVertexRadioButton;
+        private System.Windows.Forms.RadioButton SelectFigureRadioButton;
+        private System.Windows.Forms.RadioButton SelectVertexRadioButton;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.CheckBox AnimateCheckBox;
+        private System.Windows.Forms.TrackBar PolygonSpeedSlider;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button ClearRandomsButton;
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label TextureFileName;
-        private System.Windows.Forms.RadioButton radioButton7;
-        private System.Windows.Forms.RadioButton radioButton6;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.RadioButton TextureRadioButton;
+        private System.Windows.Forms.RadioButton VertexColorRadioButton;
+        private System.Windows.Forms.Button LoadMapButton;
         private System.Windows.Forms.Label BumpMapName;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button LoadTextureButton;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.RadioButton radioButton8;
+        private System.Windows.Forms.RadioButton BumpRadioButton;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.TrackBar KsSlider;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TrackBar KdSlider;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox LampCheckBox;
+        private System.Windows.Forms.Label KsValue;
+        private System.Windows.Forms.Label KdValue;
+        private System.Windows.Forms.PictureBox ColorPictureBox;
+        private System.Windows.Forms.Button SetColorButton;
     }
 }
 

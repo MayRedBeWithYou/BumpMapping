@@ -69,15 +69,17 @@ namespace Zadanie1
 
         private Bitmap bumpMap;
 
-        private Color light = Color.White;
+        private Color lightColor = Color.White;
 
-        private Vector3 lightColor = new Vector3(1, 1, 1);
+        private Vector3 lightColorVector = new Vector3(1, 1, 1);
 
-        private Vector3 L;
+        private Vector3 L = new Vector3(0,0,1);
 
         private double Kd = 0.5;
 
         private double Ks = 0.5;
+
+        private bool isLightOn = false;
 
         private readonly Vector3 V = new Vector3(0, 0, 1);
 
@@ -134,16 +136,19 @@ namespace Zadanie1
             color = Color.Black;
             Bitmap bitmap = new Bitmap(BitmapCanvas.Width, BitmapCanvas.Height);
             BitmapCanvas.Image = bitmap;
+            ColorPictureBox.Image = new Bitmap(ColorPictureBox.Width, ColorPictureBox.Height);
             texture = new Bitmap(BitmapCanvas.Width, BitmapCanvas.Height);
             cleanTexture = new Bitmap(BitmapCanvas.Width, BitmapCanvas.Height);
             using (Graphics g = Graphics.FromImage(cleanTexture))
             {
                 g.Clear(Color.Black);
             }
+            using (Graphics g = Graphics.FromImage(ColorPictureBox.Image))
+            {
+                g.Clear(lightColor);
+            }
             movementTimer.Interval = 1600 / speed;
             movementTimer.Tick += MovePolygons;
-
-            L = new Vector3(0, 0, 1);
 
             RefreshCanvas();
         }
@@ -599,17 +604,17 @@ namespace Zadanie1
         {
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        private void SelectVertexRadioChanged(object sender, EventArgs e)
         {
-            if (radioButton1.Checked)
+            if (SelectVertexRadioButton.Checked)
             {
                 State = States.Selecting;
             }
         }
 
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        private void AddPolygonRadioChanged(object sender, EventArgs e)
         {
-            if (radioButton2.Checked)
+            if (AddPolygonRadioButton.Checked)
             {
                 State = States.AddingPolygon;
             }
@@ -622,51 +627,27 @@ namespace Zadanie1
             }
         }
 
-        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        private void RemoveVertexRadioChanged(object sender, EventArgs e)
         {
-            if (radioButton3.Checked)
+            if (RemoveVertexRadioButton.Checked)
             {
                 State = States.Removing;
             }
         }
 
-        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        private void SelectFigureRadioChanged(object sender, EventArgs e)
         {
-            if (radioButton4.Checked)
+            if (SelectFigureRadioButton.Checked)
             {
                 State = States.SelectingFigure;
             }
         }
 
-        private void radioButton5_CheckedChanged(object sender, EventArgs e)
+        private void AddVertexRadioChanged(object sender, EventArgs e)
         {
-            if (radioButton5.Checked)
+            if (AddVertexRadioButton.Checked)
             {
                 State = States.AddingOnEdge;
-            }
-        }
-
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            if (SelectedVertex != null || SelectedEdge != null || SelectedPolygon != null)
-            {
-                ColorDialog colorDialog = new ColorDialog();
-                if (colorDialog.ShowDialog() == DialogResult.OK)
-                {
-                    if (SelectedVertex != null)
-                    {
-                        SelectedVertex.Polygon.SetColor(colorDialog.Color);
-                    }
-                    else if (SelectedEdge != null)
-                    {
-                        SelectedEdge.Polygon.SetColor(colorDialog.Color);
-                    }
-                    else if (SelectedPolygon != null)
-                    {
-                        SelectedPolygon.SetColor(colorDialog.Color);
-                    }
-                }
-                RefreshCanvas();
             }
         }
 
@@ -675,9 +656,9 @@ namespace Zadanie1
             RefreshCanvas();
         }
 
-        private void CheckBox1_CheckedChanged(object sender, EventArgs e)
+        private void AnimateCheckBoxChanged(object sender, EventArgs e)
         {
-            if (checkBox1.Checked)
+            if (AnimateCheckBox.Checked)
             {
                 SelectedEdge = null;
                 SelectedPolygon = null;
@@ -689,7 +670,7 @@ namespace Zadanie1
                 prevState = State;
                 State = States.Animating;
                 groupBox1.Enabled = false;
-                trackBar1.Enabled = false;
+                PolygonSpeedSlider.Enabled = false;
                 groupBox3.Enabled = false;
             }
             else
@@ -699,7 +680,7 @@ namespace Zadanie1
                 this.MaximizeBox = true;
                 State = prevState;
                 groupBox1.Enabled = true;
-                trackBar1.Enabled = true;
+                PolygonSpeedSlider.Enabled = true;
                 groupBox3.Enabled = true;
                 RefreshCanvas();
             }
@@ -762,13 +743,13 @@ namespace Zadanie1
             RefreshCanvas();
         }
 
-        private void TrackBar1_ValueChanged(object sender, EventArgs e)
+        private void SpeedSliderChanged(object sender, EventArgs e)
         {
-            speed = trackBar1.Value;
+            speed = PolygonSpeedSlider.Value;
             movementTimer.Interval = 1600 / speed;
         }
 
-        private void Button1_Click_1(object sender, EventArgs e)
+        private void ClearRandoms_Click(object sender, EventArgs e)
         {
             randomPolygons.Clear();
             tick = maxTick;
@@ -866,9 +847,9 @@ namespace Zadanie1
                                 Vector3 Rv = 2 * K * N - L;
                                 double cosN = Algorithms.Cos(N);
                                 double cosVR = Algorithms.Cos(V, Rv);
-                                float R = (float)(Kd * lightColor.X * colors[c].R/255f * cosN + Ks * lightColor.X * colors[c].R/255f * cosVR);
-                                float G = (float)(Kd * lightColor.Y * colors[c].G/255f * cosN + Ks * lightColor.Y * colors[c].G/255f * cosVR);
-                                float B = (float)(Kd * lightColor.Z * colors[c].B/255f * cosN + Ks * lightColor.Z * colors[c].B/255f * cosVR);
+                                float R = (float)(Kd * lightColorVector.X * colors[c].R/255f * cosN + Ks * lightColorVector.X * colors[c].R/255f * cosVR);
+                                float G = (float)(Kd * lightColorVector.Y * colors[c].G/255f * cosN + Ks * lightColorVector.Y * colors[c].G/255f * cosVR);
+                                float B = (float)(Kd * lightColorVector.Z * colors[c].B/255f * cosN + Ks * lightColorVector.Z * colors[c].B/255f * cosVR);
                                 
                                 colors[c] = Color.FromArgb(Algorithms.ClampRGB(R * 255), Algorithms.ClampRGB(G * 255), Algorithms.ClampRGB(B * 255));
                             }
@@ -886,7 +867,7 @@ namespace Zadanie1
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void LoadTextureButton_Click(object sender, EventArgs e)
         {
             SelectedVertex = null;
             OpenFileDialog dialog = new OpenFileDialog();
@@ -906,17 +887,17 @@ namespace Zadanie1
             }
         }
 
-        private void radioButton6_CheckedChanged(object sender, EventArgs e)
+        private void VertexColorRadioChanged(object sender, EventArgs e)
         {
-            if (radioButton6.Checked)
+            if (VertexColorRadioButton.Checked)
             {
                 filling = Filling.Color;
             }
         }
 
-        private void radioButton7_CheckedChanged(object sender, EventArgs e)
+        private void TextureRadioChanged(object sender, EventArgs e)
         {
-            if (radioButton7.Checked)
+            if (TextureRadioButton.Checked)
             {
                 filling = Filling.Texture;
             }
@@ -933,7 +914,7 @@ namespace Zadanie1
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void LoadBump_Click(object sender, EventArgs e)
         {
             SelectedVertex = null;
             OpenFileDialog dialog = new OpenFileDialog();
@@ -954,11 +935,44 @@ namespace Zadanie1
             }
         }
 
-        private void radioButton8_CheckedChanged(object sender, EventArgs e)
+        private void BumpRadioChanged(object sender, EventArgs e)
         {
-            if (radioButton8.Checked)
+            if (BumpRadioButton.Checked)
             {
                 filling = Filling.Bump;
+            }
+        }
+
+        private void KdSlider_ValueChanged(object sender, EventArgs e)
+        {
+            Kd = KdSlider.Value/100f;
+            KdValue.Text = Kd.ToString();
+        }
+
+        private void KsSlider_ValueChanged(object sender, EventArgs e)
+        {
+            Ks = KsSlider.Value/100f;
+            KsValue.Text = Ks.ToString();
+        }
+
+        private void LampCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            isLightOn = LampCheckBox.Checked;
+        }
+
+        private void SetColorButton_Click(object sender, EventArgs e)
+        {
+            ColorDialog dialog = new ColorDialog();
+            dialog.FullOpen = true;
+            if(dialog.ShowDialog() == DialogResult.OK)
+            {
+                lightColor = dialog.Color;
+                lightColorVector = new Vector3(lightColor.R / 255f, lightColor.G / 255f, lightColor.B / 255f);
+                using (Graphics g = Graphics.FromImage(ColorPictureBox.Image))
+                {
+                    g.Clear(lightColor);
+                }
+                ColorPictureBox.Refresh();
             }
         }
     }
