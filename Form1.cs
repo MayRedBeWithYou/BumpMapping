@@ -923,7 +923,7 @@ namespace Zadanie2
             UnselectAll();
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Title = "Open Image";
-            dialog.Filter = "bmp files (*.bmp)|*.bmp|jpg files (*.jpg)|*.jpg;*.jpeg|png files (*.png)|*.png";
+            dialog.Filter = "image files (*.bmp, *.jpg, *.png)|*.bmp;*.jpg;*.jpeg;*.png";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 cleanTexture = new Bitmap(dialog.FileName);
@@ -975,7 +975,7 @@ namespace Zadanie2
             UnselectAll();
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Title = "Open Image";
-            dialog.Filter = "bmp files (*.bmp)|*.bmp|jpg files (*.jpg)|*.jpg;*.jpeg|png files (*.png)|*.png";
+            dialog.Filter = "image files (*.bmp, *.jpg, *.png)|*.bmp;*.jpg;*.jpeg;*.png";
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
