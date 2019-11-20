@@ -6,7 +6,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Zadanie1
+namespace Zadanie2
 {
     public enum States
     {
@@ -29,7 +29,7 @@ namespace Zadanie1
 
     public partial class Form1 : Form
     {
-        private Color color;
+        private States prevState = States.Selecting;
 
         private List<Vertex> vertices = new List<Vertex>();
 
@@ -41,13 +41,19 @@ namespace Zadanie1
 
         private List<(Polygon, Polygon)> inters = new List<(Polygon, Polygon)>();
 
+        private bool isLightOn = false;
+
+        private Point MousePos;
+
         private Vertex previousVertex;
 
         private Vertex selectedVertex;
 
-        private States state = States.Selecting;
+        private Edge selectedEdge;
 
-        private States prevState = States.Selecting;
+        private Polygon newPolygon;
+
+        private Polygon selectedPolygon;
 
         private Timer movementTimer = new Timer();
 
@@ -58,6 +64,10 @@ namespace Zadanie1
         private int tick = 0;
 
         private Random rng = new Random();
+
+        private double Kd = 0.5;
+
+        private double Ks = 0.5;
 
         private Bitmap texture;
 
@@ -73,52 +83,11 @@ namespace Zadanie1
 
         private Vector3 lightColorVector = new Vector3(1, 1, 1);
 
-        private Vector3 L = new Vector3(0,0,1);
-
-        private double Kd = 0.5;
-
-        private double Ks = 0.5;
-
-        private bool isLightOn = false;
+        private Vector3 L = new Vector3(0, 0, 1);
 
         private readonly Vector3 V = new Vector3(0, 0, 1);
 
-        private States State
-        {
-            get => state;
-            set
-            {
-                state = value;
-            }
-        }
-
-        private Edge selectedEdge;
-
-        private Point MousePosition;
-
-        private Polygon SelectedPolygon
-        {
-            get => selectedPolygon;
-            set
-            {
-                selectedPolygon = value;
-                RefreshCanvas();
-            }
-        }
-
-        private Polygon newPolygon;
-
-        private Polygon selectedPolygon;
-
-        private Edge SelectedEdge
-        {
-            get => selectedEdge;
-            set
-            {
-                selectedEdge = value;
-                RefreshCanvas();
-            }
-        }
+        private States State { get; set; } = States.Selecting;
 
         private Vertex SelectedVertex
         {
@@ -130,26 +99,68 @@ namespace Zadanie1
             }
         }
 
+        private Edge SelectedEdge
+        {
+            get => selectedEdge;
+            set
+            {
+                selectedEdge = value;
+                RefreshCanvas();
+            }
+        }
+
+        private Polygon SelectedPolygon
+        {
+            get => selectedPolygon;
+            set
+            {
+                selectedPolygon = value;
+                RefreshCanvas();
+            }
+        }
+
         public Form1()
         {
             InitializeComponent();
-            color = Color.Black;
             Bitmap bitmap = new Bitmap(BitmapCanvas.Width, BitmapCanvas.Height);
             BitmapCanvas.Image = bitmap;
             ColorPictureBox.Image = new Bitmap(ColorPictureBox.Width, ColorPictureBox.Height);
+
             texture = new Bitmap(BitmapCanvas.Width, BitmapCanvas.Height);
-            cleanTexture = new Bitmap(BitmapCanvas.Width, BitmapCanvas.Height);
-            using (Graphics g = Graphics.FromImage(cleanTexture))
+            cleanTexture = new Bitmap(Zadanie2.Properties.Resources.texture);
+            using (Graphics g = Graphics.FromImage(texture))
             {
-                g.Clear(Color.Black);
+                TextureBrush b = new TextureBrush(cleanTexture, System.Drawing.Drawing2D.WrapMode.Tile);
+                g.FillRectangle(b, 0, 0, BitmapCanvas.Width, BitmapCanvas.Height);
             }
+            TextureFileName.Text = "texture.jpg";
+
+            bumpMap = new Bitmap(BitmapCanvas.Width, BitmapCanvas.Height);
+            cleanBumpMap = new Bitmap(Zadanie2.Properties.Resources.map);
+            using (Graphics g = Graphics.FromImage(bumpMap))
+            {
+                TextureBrush b = new TextureBrush(cleanBumpMap, System.Drawing.Drawing2D.WrapMode.Tile);
+                g.FillRectangle(b, 0, 0, BitmapCanvas.Width, BitmapCanvas.Height);
+            }
+            BumpMapName.Text = "map.jpg";
+
             using (Graphics g = Graphics.FromImage(ColorPictureBox.Image))
             {
                 g.Clear(lightColor);
             }
+            ColorPictureBox.Refresh();
+
             movementTimer.Interval = 1600 / speed;
             movementTimer.Tick += MovePolygons;
 
+            RefreshCanvas();
+        }
+
+        private void UnselectAll()
+        {
+            SelectedEdge = null;
+            SelectedVertex = null;
+            SelectedPolygon = null;
             RefreshCanvas();
         }
 
@@ -190,25 +201,12 @@ namespace Zadanie1
             return null;
         }
 
-        private void HighlightVertex(Vertex v, Bitmap bitmap)
+        private void RemoveEdge(Edge e)
         {
-            for (int i = v.Position.X - v.Size / 2; i < v.Position.X + v.Size / 2; i++)
-            {
-                for (int j = v.Position.Y - v.Size / 2; j < v.Position.Y + v.Size / 2; j++)
-                {
-                    if (i >= 0 && j >= 0 && i < bitmap.Width && j < bitmap.Height)
-                        bitmap.SetPixel(i, j, Color.Orange);
-                }
-            }
-        }
-
-        private void HighlightEdge(Edge e, Bitmap bitmap)
-        {
-            foreach (Point p in e.Points)
-            {
-                if (p.X >= 0 && p.Y >= 0 && p.X < bitmap.Width && p.Y < bitmap.Height)
-                    bitmap.SetPixel(p.X, p.Y, Color.Orange);
-            }
+            edges.Remove(e);
+            e.From.Edges.Remove(e);
+            e.To.Edges.Remove(e);
+            e.Polygon.Edges.Remove(e);
         }
 
         private void DeletePolygon(Polygon poly)
@@ -228,12 +226,25 @@ namespace Zadanie1
             RefreshCanvas();
         }
 
-        private void RemoveEdge(Edge e)
+        private void HighlightVertex(Vertex v, Bitmap bitmap)
         {
-            edges.Remove(e);
-            e.From.Edges.Remove(e);
-            e.To.Edges.Remove(e);
-            e.Polygon.Edges.Remove(e);
+            for (int i = v.Position.X - v.Size / 2; i < v.Position.X + v.Size / 2; i++)
+            {
+                for (int j = v.Position.Y - v.Size / 2; j < v.Position.Y + v.Size / 2; j++)
+                {
+                    if (i >= 0 && j >= 0 && i < bitmap.Width && j < bitmap.Height)
+                        bitmap.SetPixel(i, j, Color.Orange);
+                }
+            }
+        }
+
+        private void HighlightEdge(Edge e, Bitmap bitmap)
+        {
+            foreach (Point p in e.Points)
+            {
+                if (p.X >= 0 && p.Y >= 0 && p.X < bitmap.Width && p.Y < bitmap.Height)
+                    bitmap.SetPixel(p.X, p.Y, Color.Orange);
+            }
         }
 
         private void HighlightPolygon(Polygon poly, Bitmap bitmap)
@@ -344,7 +355,7 @@ namespace Zadanie1
                             if (Algorithms.Distance(pos, v.Position) <= v.Size / 2)
                             {
                                 SelectedVertex = v;
-                                MousePosition = pos;
+                                MousePos = pos;
                                 return;
                             }
                         }
@@ -355,7 +366,7 @@ namespace Zadanie1
                                 if (Algorithms.Distance(pos, p) < 5)
                                 {
                                     SelectedEdge = edge;
-                                    MousePosition = pos;
+                                    MousePos = pos;
                                     return;
                                 }
                             }
@@ -415,7 +426,7 @@ namespace Zadanie1
                         e2.Polygon = poly;
                         SelectedEdge = null;
                         SelectedVertex = v;
-                        MousePosition = e.Location;
+                        MousePos = e.Location;
                         RefreshCanvas();
                         return;
                     }
@@ -429,7 +440,7 @@ namespace Zadanie1
                             if (Algorithms.Distance(pos, v.Position) <= v.Size / 2)
                             {
                                 SelectedPolygon = v.Polygon;
-                                MousePosition = pos;
+                                MousePos = pos;
 
                                 return;
                             }
@@ -441,7 +452,7 @@ namespace Zadanie1
                                 if (Algorithms.Distance(pos, p) < 10)
                                 {
                                     SelectedPolygon = edge.To.Polygon;
-                                    MousePosition = pos;
+                                    MousePos = pos;
 
                                     return;
                                 }
@@ -459,7 +470,7 @@ namespace Zadanie1
                             SelectedPolygon = null;
                             SelectedVertex = v;
                             SelectedEdge = null;
-                            MousePosition = pos;
+                            MousePos = pos;
                             break;
                         }
                     }
@@ -486,7 +497,7 @@ namespace Zadanie1
                         newPolygon.Edges.Add(edge);
                     }
                     previousVertex = ver;
-                    MousePosition = e.Location;
+                    MousePos = e.Location;
                     break;
 
                 case States.Removing:
@@ -498,7 +509,7 @@ namespace Zadanie1
                             SelectedPolygon = null;
                             SelectedVertex = v;
                             SelectedEdge = null;
-                            MousePosition = pos;
+                            MousePos = pos;
                             break;
                         }
                     }
@@ -536,8 +547,8 @@ namespace Zadanie1
         {
             if (e.Button == MouseButtons.Left)
             {
-                int diffX = MousePosition.X - e.X;
-                int diffY = MousePosition.Y - e.Y;
+                int diffX = MousePos.X - e.X;
+                int diffY = MousePos.Y - e.Y;
 
                 switch (State)
                 {
@@ -561,7 +572,7 @@ namespace Zadanie1
                             {
                                 Algorithms.CalculateEdge(edge);
                             }
-                            MousePosition = e.Location;
+                            MousePos = e.Location;
                             RefreshCanvas();
                         }
                         else if (SelectedVertex != null)
@@ -573,7 +584,7 @@ namespace Zadanie1
                             {
                                 Algorithms.CalculateEdge(edge);
                             }
-                            MousePosition = e.Location;
+                            MousePos = e.Location;
                             RefreshCanvas();
                         }
                         break;
@@ -592,16 +603,12 @@ namespace Zadanie1
                             {
                                 Algorithms.CalculateEdge(edge);
                             }
-                            MousePosition = e.Location;
+                            MousePos = e.Location;
                         }
                         RefreshCanvas();
                         break;
                 }
             }
-        }
-
-        private void CanvasMouseUp(object sender, MouseEventArgs e)
-        {
         }
 
         private void SelectVertexRadioChanged(object sender, EventArgs e)
@@ -669,9 +676,8 @@ namespace Zadanie1
                 this.MaximizeBox = false;
                 prevState = State;
                 State = States.Animating;
-                groupBox1.Enabled = false;
+                PolygonToolsBox.Enabled = false;
                 PolygonSpeedSlider.Enabled = false;
-                groupBox3.Enabled = false;
             }
             else
             {
@@ -679,10 +685,9 @@ namespace Zadanie1
                 this.FormBorderStyle = FormBorderStyle.Sizable;
                 this.MaximizeBox = true;
                 State = prevState;
-                groupBox1.Enabled = true;
+                PolygonToolsBox.Enabled = true;
                 PolygonSpeedSlider.Enabled = true;
-                groupBox3.Enabled = true;
-                RefreshCanvas();
+                //RefreshCanvas();
             }
         }
 
@@ -704,7 +709,7 @@ namespace Zadanie1
             if (tick == maxTick)
             {
                 tick = 0;
-                Debug.WriteLine(randomPolygons.RemoveAll(poly => IsOutsideView(poly)));
+                randomPolygons.RemoveAll(poly => IsOutsideView(poly));
                 randomPolygons.Add(Algorithms.GenerateRandomPolygon(rng.Next(4, 10), BitmapCanvas.Height * 2 / 5, BitmapCanvas.Width + 300));
             }
             if (randomPolygons.Count == 0) return;
@@ -733,8 +738,10 @@ namespace Zadanie1
                             Edge edge = new Edge(inter.Vertices[inter.Vertices.Count - 1], v);
                             inter.Vertices.Add(v);
                             inter.Edges.Add(edge);
+                            edge.Polygon = inter;
                         }
                         inter.Edges.Add(new Edge(inter.Vertices[inter.Vertices.Count - 1], inter.Vertices[0]));
+                        inter.Edges[inter.Edges.Count - 1].Polygon = inter;
                         inters.Add((inter, p));
                     }
                 });
@@ -756,14 +763,13 @@ namespace Zadanie1
             RefreshCanvas();
         }
 
-        private class EdgeData
+        private struct EdgeData
         {
             public Edge edge;
             public int yMax;
             public int yMin;
             public double xMin;
             public double diff;
-            public int mdiv;
         }
 
         private void FillIntersection(Polygon poly, Polygon parent, Bitmap bitmap)
@@ -802,12 +808,19 @@ namespace Zadanie1
                 List<Point> intersections = new List<Point>();
                 Point prev = Point.Empty;
                 Point p = Point.Empty;
+                EdgeData prevData = new EdgeData();
                 foreach (EdgeData data in AET)
                 {
-                    prev = p;
                     p = Algorithms.GetScanlineIntersection(data.edge, index, BitmapCanvas.Width);
                     if (p.IsEmpty) continue;
-                    if (p.X == prev.X) continue;
+                    if (p.X == prev.X)
+                    {
+                        int d1 = prevData.edge.From.Position.Y - prevData.edge.To.Position.Y;
+                        int d2 = data.edge.From.Position.Y - data.edge.To.Position.Y;
+                        if (d1 * d2 >= 0) continue;
+                    }
+                    prevData = data;
+                    prev = p;
                     intersections.Add(p);
                 }
                 intersections.Sort((p1, p2) => p1.X - p2.X);
@@ -822,35 +835,37 @@ namespace Zadanie1
                         case Filling.Color:
                             Parallel.For(0, intersections[i + 1].X - intersections[i].X + 1, c =>
                             {
-                                colors[c] = Algorithms.CalculateColor(parent, new Point(c + intersections[i].X, index));
+                                if (c + intersections[i].X >= 0)
+                                {
+                                    colors[c] = Algorithms.CalculateColor(parent, new Point(c + intersections[i].X, index));
+                                }
                             });
                             break;
                         case Filling.Texture:
                             for (int c = 0; c < intersections[i + 1].X - intersections[i].X + 1; c++)
                             {
-                                if (texture == null) colors[c] = Color.Black;
-                                else colors[c] = texture.GetPixel(c + intersections[i].X, index);
+                                if (c + intersections[i].X < 0) continue;
+                                colors[c] = texture.GetPixel(c + intersections[i].X, index);
                             }
                             break;
                         case Filling.Bump:
                             for (int c = 0; c < intersections[i + 1].X - intersections[i].X + 1; c++)
                             {
-                                if (texture == null) colors[c] = Color.Black;
-                                else colors[c] = texture.GetPixel(c + intersections[i].X, index);
+                                if (c + intersections[i].X < 0) continue;
+                                colors[c] = texture.GetPixel(c + intersections[i].X, index);
                                 Color normal = bumpMap.GetPixel(c + intersections[i].X, index);
                                 float Nx = (normal.R - 127) / 128f;
                                 float Ny = (normal.G - 127) / 128f;
                                 float Nz = (normal.B - 127) / 128f;
-                                Vector3 N = new Vector3(Nx,Ny,Nz);
+                                Vector3 N = new Vector3(Nx, Ny, Nz);
                                 N = Vector3.Normalize(N);
                                 float K = Vector3.Dot(N, new Vector3(0, 0, 1));
                                 Vector3 Rv = 2 * K * N - L;
                                 double cosN = Algorithms.Cos(N);
                                 double cosVR = Algorithms.Cos(V, Rv);
-                                float R = (float)(Kd * lightColorVector.X * colors[c].R/255f * cosN + Ks * lightColorVector.X * colors[c].R/255f * cosVR);
-                                float G = (float)(Kd * lightColorVector.Y * colors[c].G/255f * cosN + Ks * lightColorVector.Y * colors[c].G/255f * cosVR);
-                                float B = (float)(Kd * lightColorVector.Z * colors[c].B/255f * cosN + Ks * lightColorVector.Z * colors[c].B/255f * cosVR);
-                                
+                                float R = (float)(Kd * lightColorVector.X * colors[c].R / 255f * cosN + Ks * lightColorVector.X * colors[c].R / 255f * cosVR);
+                                float G = (float)(Kd * lightColorVector.Y * colors[c].G / 255f * cosN + Ks * lightColorVector.Y * colors[c].G / 255f * cosVR);
+                                float B = (float)(Kd * lightColorVector.Z * colors[c].B / 255f * cosN + Ks * lightColorVector.Z * colors[c].B / 255f * cosVR);
                                 colors[c] = Color.FromArgb(Algorithms.ClampRGB(R * 255), Algorithms.ClampRGB(G * 255), Algorithms.ClampRGB(B * 255));
                             }
                             break;
@@ -869,7 +884,7 @@ namespace Zadanie1
 
         private void LoadTextureButton_Click(object sender, EventArgs e)
         {
-            SelectedVertex = null;
+            UnselectAll();
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Title = "Open Image";
             dialog.Filter = "bmp files (*.bmp)|*.bmp|jpg files (*.jpg)|*.jpg;*.jpeg|png files (*.png)|*.png";
@@ -882,7 +897,6 @@ namespace Zadanie1
                 {
                     TextureBrush b = new TextureBrush(cleanTexture, System.Drawing.Drawing2D.WrapMode.Tile);
                     g.FillRectangle(b, 0, 0, BitmapCanvas.Width, BitmapCanvas.Height);
-                    //g.DrawImage(cleanTexture, 0, 0, BitmapCanvas.Width, BitmapCanvas.Height);
                 }
             }
         }
@@ -910,13 +924,19 @@ namespace Zadanie1
             {
                 TextureBrush b = new TextureBrush(cleanTexture, System.Drawing.Drawing2D.WrapMode.Tile);
                 g.FillRectangle(b, 0, 0, BitmapCanvas.Width, BitmapCanvas.Height);
-                //g.DrawImage(cleanTexture, 0, 0, BitmapCanvas.Width, BitmapCanvas.Height);
+            }
+
+            bumpMap = new Bitmap(BitmapCanvas.Width, BitmapCanvas.Height);
+            using (Graphics g = Graphics.FromImage(bumpMap))
+            {
+                TextureBrush b = new TextureBrush(cleanBumpMap, System.Drawing.Drawing2D.WrapMode.Tile);
+                g.FillRectangle(b, 0, 0, BitmapCanvas.Width, BitmapCanvas.Height);
             }
         }
 
         private void LoadBump_Click(object sender, EventArgs e)
         {
-            SelectedVertex = null;
+            UnselectAll();
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Title = "Open Image";
             dialog.Filter = "bmp files (*.bmp)|*.bmp|jpg files (*.jpg)|*.jpg;*.jpeg|png files (*.png)|*.png";
@@ -930,7 +950,6 @@ namespace Zadanie1
                 {
                     TextureBrush b = new TextureBrush(cleanBumpMap, System.Drawing.Drawing2D.WrapMode.Tile);
                     g.FillRectangle(b, 0, 0, BitmapCanvas.Width, BitmapCanvas.Height);
-                    //g.DrawImage(cleanTexture, 0, 0, BitmapCanvas.Width, BitmapCanvas.Height);
                 }
             }
         }
@@ -945,13 +964,13 @@ namespace Zadanie1
 
         private void KdSlider_ValueChanged(object sender, EventArgs e)
         {
-            Kd = KdSlider.Value/100f;
+            Kd = KdSlider.Value / 100f;
             KdValue.Text = Kd.ToString();
         }
 
         private void KsSlider_ValueChanged(object sender, EventArgs e)
         {
-            Ks = KsSlider.Value/100f;
+            Ks = KsSlider.Value / 100f;
             KsValue.Text = Ks.ToString();
         }
 
@@ -962,9 +981,10 @@ namespace Zadanie1
 
         private void SetColorButton_Click(object sender, EventArgs e)
         {
+            UnselectAll();
             ColorDialog dialog = new ColorDialog();
             dialog.FullOpen = true;
-            if(dialog.ShowDialog() == DialogResult.OK)
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
                 lightColor = dialog.Color;
                 lightColorVector = new Vector3(lightColor.R / 255f, lightColor.G / 255f, lightColor.B / 255f);
@@ -974,6 +994,11 @@ namespace Zadanie1
                 }
                 ColorPictureBox.Refresh();
             }
+        }
+
+        private void HeightSliderChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Windows;
 using Point = System.Drawing.Point;
 
-namespace Zadanie1
+namespace Zadanie2
 {
     public static class Algorithms
     {
@@ -58,7 +57,7 @@ namespace Zadanie1
                     e.Points.Add(new Point(x, y));
                 }
 
-                err = err - dY;
+                err -= dY;
                 if (err < 0)
                 {
                     y += ystep;
@@ -98,6 +97,25 @@ namespace Zadanie1
             Point e1 = e.To.Position;
             Point s2 = new Point(0, h);
             Point e2 = new Point(width, h);
+            float a1 = e1.Y - s1.Y;
+            float b1 = s1.X - e1.X;
+            float c1 = a1 * s1.X + b1 * s1.Y;
+
+            float a2 = e2.Y - s2.Y;
+            float b2 = s2.X - e2.X;
+            float c2 = a2 * s2.X + b2 * s2.Y;
+
+            float delta = a1 * b2 - a2 * b1;
+            return delta == 0 ? Point.Empty
+                : new Point((int)((b2 * c1 - b1 * c2) / delta), (int)((a1 * c2 - a2 * c1) / delta));
+        }
+
+        public static Point GetScanlineIntersection(Edge e, Point p, int width)
+        {
+            Point s1 = e.From.Position;
+            Point e1 = e.To.Position;
+            Point s2 = p;
+            Point e2 = new Point(width, p.Y);
             float a1 = e1.Y - s1.Y;
             float b1 = s1.X - e1.X;
             float c1 = a1 * s1.X + b1 * s1.Y;
@@ -227,7 +245,7 @@ namespace Zadanie1
             return p;
         }
 
-        private static bool IsInside(Edge edge, Point test)
+        public static bool IsInside(Edge edge, Point test)
         {
             bool? isLeft = IsLeftOf(edge, test);
             if (isLeft == null)
@@ -238,7 +256,7 @@ namespace Zadanie1
             return !isLeft.Value;
         }
 
-        private static bool? IsLeftOf(Edge edge, Point test)
+        public static bool? IsLeftOf(Edge edge, Point test)
         {
             Point tmp1 = new Point(edge.To.Position.X - edge.From.Position.X, edge.To.Position.Y - edge.From.Position.Y);
             Point tmp2 = new Point(test.X - edge.To.Position.X, test.Y - edge.To.Position.Y);
@@ -257,32 +275,6 @@ namespace Zadanie1
             {
                 return null;
             }
-        }
-
-        public static int GetFarLeft(Polygon poly)
-        {
-            int min = poly.Vertices[0].Position.X;
-            foreach (Vertex v in poly.Vertices)
-            {
-                if (min > v.Position.X)
-                {
-                    min = v.Position.X;
-                }
-            }
-            return min;
-        }
-
-        public static int GetFarRight(Polygon poly)
-        {
-            int max = poly.Vertices[0].Position.X;
-            foreach (Vertex v in poly.Vertices)
-            {
-                if (max < v.Position.X)
-                {
-                    max = v.Position.X;
-                }
-            }
-            return max;
         }
 
         public static Point[] GetIntersectedPolygon(Polygon subjectPoly, Polygon clipPoly)

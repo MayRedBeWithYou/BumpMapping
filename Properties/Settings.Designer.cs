@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Zadanie1.Properties
+namespace Zadanie2.Properties
 {
 
 

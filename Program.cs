@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Zadanie1
+namespace Zadanie2
 {
     static class Program
     {

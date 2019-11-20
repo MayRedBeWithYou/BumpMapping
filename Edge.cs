@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
-namespace Zadanie1
+namespace Zadanie2
 {
     public class Edge
     {
