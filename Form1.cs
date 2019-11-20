@@ -85,6 +85,12 @@ namespace Zadanie2
 
         private Vector3 L = new Vector3(0, 0, 1);
 
+        private float height = 0.5f;
+
+        private Point lightIconPos = new Point(0, 0);
+
+        private Point lightV = new Point(0, 0);
+
         private readonly Vector3 V = new Vector3(0, 0, 1);
 
         private States State { get; set; } = States.Selecting;
@@ -149,6 +155,8 @@ namespace Zadanie2
                 g.Clear(lightColor);
             }
             ColorPictureBox.Refresh();
+
+            HeightValue.Text = height.ToString();
 
             movementTimer.Interval = 1600 / speed;
             movementTimer.Tick += MovePolygons;
@@ -327,12 +335,39 @@ namespace Zadanie2
                     FillIntersection(poly, p, bitmap);
                 }
             }
+
+            if (isLightOn)
+            {
+                using (Graphics g = Graphics.FromImage(bitmap))
+                {
+                    SolidBrush b = new SolidBrush(Color.Yellow);
+
+                    g.FillEllipse(b, lightIconPos.X - 9, lightIconPos.Y - 9, 21, 21);
+                }
+            }
+
             BitmapCanvas.Image = bitmap;
             BitmapCanvas.Refresh();
         }
 
         private void CanvasMouseDown(object sender, MouseEventArgs e)
         {
+            if (e.Button == MouseButtons.Right && isLightOn)
+            {
+                float x = -e.Location.X + BitmapCanvas.Width / 2;
+                float y = -e.Location.Y + BitmapCanvas.Height / 2;
+                lightV = new Point((int)x, (int)y);
+                x /= (float)(BitmapCanvas.Width / 2);
+                y /= (float)(BitmapCanvas.Height / 2);
+
+                lightIconPos = e.Location;
+                L.X = x;
+                L.Y = y;
+                L.Z = height;
+                L = Vector3.Normalize(L);
+                RefreshCanvas();
+            }
+
             MouseEventArgs ev = e as MouseEventArgs;
             Point pos = new Point(ev.Location.X, ev.Location.Y);
 
@@ -342,209 +377,229 @@ namespace Zadanie2
             SelectedVertex = null;
             SelectedEdge = null;
 
-            switch (State)
+            if (e.Button == MouseButtons.Left)
             {
-                case States.None:
-                    break;
+                switch (State)
+                {
+                    case States.None:
+                        break;
 
-                case States.Selecting:
-                    foreach (Polygon poly in polygons)
-                    {
-                        foreach (Vertex v in poly.Vertices)
+                    case States.Selecting:
+                        foreach (Polygon poly in polygons)
                         {
-                            if (Algorithms.Distance(pos, v.Position) <= v.Size / 2)
+                            foreach (Vertex v in poly.Vertices)
                             {
-                                SelectedVertex = v;
-                                MousePos = pos;
-                                return;
-                            }
-                        }
-                        foreach (Edge edge in poly.Edges)
-                        {
-                            foreach (Point p in edge.Points)
-                            {
-                                if (Algorithms.Distance(pos, p) < 5)
+                                if (Algorithms.Distance(pos, v.Position) <= v.Size / 2)
                                 {
-                                    SelectedEdge = edge;
+                                    SelectedVertex = v;
                                     MousePos = pos;
                                     return;
                                 }
                             }
-                        }
-                    }
-
-                    break;
-
-                case States.AddingOnEdge:
-                    Point closest = Point.Empty;
-                    double minDist = double.MaxValue;
-                    Edge closestEdge = null;
-                    foreach (Polygon poly in polygons)
-                    {
-
-                        foreach (Edge edge in poly.Edges)
-                        {
-                            foreach (Point p in edge.Points)
+                            foreach (Edge edge in poly.Edges)
                             {
-                                double distance = Algorithms.Distance(pos, p);
-                                if (distance < 10)
+                                foreach (Point p in edge.Points)
                                 {
-                                    if (distance < minDist)
+                                    if (Algorithms.Distance(pos, p) < 5)
                                     {
-                                        closest = p;
-                                        minDist = distance;
-                                        closestEdge = edge;
+                                        SelectedEdge = edge;
+                                        MousePos = pos;
+                                        return;
                                     }
                                 }
                             }
                         }
-                    }
-                    if (closestEdge != null)
-                    {
-                        SelectedPolygon = null;
-                        SelectedVertex = closestEdge.From;
-                        Polygon poly = closestEdge.Polygon;
-                        int index = poly.Edges.IndexOf(closestEdge);
-                        closest = new Point(closest.X + 5, closest.Y + 5);
-                        RemoveEdge(closestEdge);
-                        Vertex v = new Vertex(closest.X, closest.Y);
-                        vertices.Add(v);
-                        v.Color = poly.Color;
-                        v.Polygon = poly;
-                        poly.Vertices.Insert(poly.Vertices.IndexOf(closestEdge.To), v);
 
-                        Edge e1 = AddNewEdge(v, closestEdge.To);
-                        e1.Color = poly.Color;
-                        Algorithms.CalculateEdge(e1);
+                        break;
 
-                        Edge e2 = AddNewEdge(closestEdge.From, v);
-                        e2.Color = poly.Color;
-                        Algorithms.CalculateEdge(e2);
-                        poly.Edges.Insert(index, e1);
-                        poly.Edges.Insert(index, e2);
-                        e1.Polygon = poly;
-                        e2.Polygon = poly;
-                        SelectedEdge = null;
-                        SelectedVertex = v;
-                        MousePos = e.Location;
-                        RefreshCanvas();
-                        return;
-                    }
-                    break;
-
-                case States.SelectingFigure:
-                    foreach (Polygon poly in polygons)
-                    {
-                        foreach (Vertex v in poly.Vertices)
+                    case States.AddingOnEdge:
+                        Point closest = Point.Empty;
+                        double minDist = double.MaxValue;
+                        Edge closestEdge = null;
+                        foreach (Polygon poly in polygons)
                         {
-                            if (Algorithms.Distance(pos, v.Position) <= v.Size / 2)
-                            {
-                                SelectedPolygon = v.Polygon;
-                                MousePos = pos;
 
-                                return;
+                            foreach (Edge edge in poly.Edges)
+                            {
+                                foreach (Point p in edge.Points)
+                                {
+                                    double distance = Algorithms.Distance(pos, p);
+                                    if (distance < 10)
+                                    {
+                                        if (distance < minDist)
+                                        {
+                                            closest = p;
+                                            minDist = distance;
+                                            closestEdge = edge;
+                                        }
+                                    }
+                                }
                             }
                         }
-                        foreach (Edge edge in poly.Edges)
+                        if (closestEdge != null)
                         {
-                            foreach (Point p in edge.Points)
+                            SelectedPolygon = null;
+                            SelectedVertex = closestEdge.From;
+                            Polygon poly = closestEdge.Polygon;
+                            int index = poly.Edges.IndexOf(closestEdge);
+                            closest = new Point(closest.X + 5, closest.Y + 5);
+                            RemoveEdge(closestEdge);
+                            Vertex v = new Vertex(closest.X, closest.Y);
+                            vertices.Add(v);
+                            v.Color = poly.Color;
+                            v.Polygon = poly;
+                            poly.Vertices.Insert(poly.Vertices.IndexOf(closestEdge.To), v);
+
+                            Edge e1 = AddNewEdge(v, closestEdge.To);
+                            e1.Color = poly.Color;
+                            Algorithms.CalculateEdge(e1);
+
+                            Edge e2 = AddNewEdge(closestEdge.From, v);
+                            e2.Color = poly.Color;
+                            Algorithms.CalculateEdge(e2);
+                            poly.Edges.Insert(index, e1);
+                            poly.Edges.Insert(index, e2);
+                            e1.Polygon = poly;
+                            e2.Polygon = poly;
+                            SelectedEdge = null;
+                            SelectedVertex = v;
+                            MousePos = e.Location;
+                            RefreshCanvas();
+                            return;
+                        }
+                        break;
+
+                    case States.SelectingFigure:
+                        foreach (Polygon poly in polygons)
+                        {
+                            foreach (Vertex v in poly.Vertices)
                             {
-                                if (Algorithms.Distance(pos, p) < 10)
+                                if (Algorithms.Distance(pos, v.Position) <= v.Size / 2)
                                 {
-                                    SelectedPolygon = edge.To.Polygon;
+                                    SelectedPolygon = v.Polygon;
                                     MousePos = pos;
 
                                     return;
                                 }
                             }
-                        }
-                    }
-                    break;
-
-                case States.AddingPolygon:
-                    SelectedVertex = null;
-                    foreach (Vertex v in vertices)
-                    {
-                        if (Algorithms.Distance(pos, v.Position) < 10)
-                        {
-                            SelectedPolygon = null;
-                            SelectedVertex = v;
-                            SelectedEdge = null;
-                            MousePos = pos;
-                            break;
-                        }
-                    }
-                    if (SelectedVertex != null)
-                    {
-                        if (SelectedVertex == previousVertex || SelectedVertex.Polygon.isClosed) SelectedVertex = null;
-                        else if (SelectedVertex.Edges.Count < 2)
-                        {
-                            Edge edge = AddNewEdge(previousVertex, SelectedVertex);
-                            previousVertex.Polygon.Edges.Add(edge);
-                            edge.Polygon = previousVertex.Polygon;
-                            edge.Polygon.isClosed = true;
-                            newPolygon = null;
-                            previousVertex = null;
-                        }
-                        RefreshCanvas();
-                        return;
-                    }
-                    Vertex ver = AddNewVertex(pos);
-                    if (previousVertex != null)
-                    {
-                        Edge edge = AddNewEdge(previousVertex, ver);
-                        edge.Polygon = newPolygon;
-                        newPolygon.Edges.Add(edge);
-                    }
-                    previousVertex = ver;
-                    MousePos = e.Location;
-                    break;
-
-                case States.Removing:
-                    SelectedVertex = null;
-                    foreach (Vertex v in vertices)
-                    {
-                        if (Algorithms.Distance(pos, v.Position) <= v.Size / 2)
-                        {
-                            SelectedPolygon = null;
-                            SelectedVertex = v;
-                            SelectedEdge = null;
-                            MousePos = pos;
-                            break;
-                        }
-                    }
-                    if (SelectedVertex != null)
-                    {
-                        Polygon poly = SelectedVertex.Polygon;
-                        if (poly.Vertices.Count == 3)
-                        {
-                            DeletePolygon(poly);
-                        }
-                        else
-                        {
-                            (Vertex v1, Vertex v2) = SelectedVertex.GetNeighbors();
-
-                            while (SelectedVertex.Edges.Count != 0)
+                            foreach (Edge edge in poly.Edges)
                             {
-                                RemoveEdge(SelectedVertex.Edges[0]);
+                                foreach (Point p in edge.Points)
+                                {
+                                    if (Algorithms.Distance(pos, p) < 10)
+                                    {
+                                        SelectedPolygon = edge.To.Polygon;
+                                        MousePos = pos;
+
+                                        return;
+                                    }
+                                }
                             }
-                            int index = poly.Edges.IndexOf(v2.Edges[0]);
-                            Edge newEdge = AddNewEdge(v1, v2);
-                            newEdge.Color = poly.Color;
-                            poly.Edges.Insert(index, newEdge);
-                            newEdge.Polygon = poly;
-                            poly.Vertices.Remove(SelectedVertex);
-                            vertices.Remove(SelectedVertex);
-                            SelectedVertex = null;
                         }
-                    }
-                    break;
+                        break;
+
+                    case States.AddingPolygon:
+                        SelectedVertex = null;
+                        foreach (Vertex v in vertices)
+                        {
+                            if (Algorithms.Distance(pos, v.Position) < 10)
+                            {
+                                SelectedPolygon = null;
+                                SelectedVertex = v;
+                                SelectedEdge = null;
+                                MousePos = pos;
+                                break;
+                            }
+                        }
+                        if (SelectedVertex != null)
+                        {
+                            if (SelectedVertex == previousVertex || SelectedVertex.Polygon.isClosed) SelectedVertex = null;
+                            else if (SelectedVertex.Edges.Count < 2)
+                            {
+                                Edge edge = AddNewEdge(previousVertex, SelectedVertex);
+                                previousVertex.Polygon.Edges.Add(edge);
+                                edge.Polygon = previousVertex.Polygon;
+                                edge.Polygon.isClosed = true;
+                                newPolygon = null;
+                                previousVertex = null;
+                            }
+                            RefreshCanvas();
+                            return;
+                        }
+                        Vertex ver = AddNewVertex(pos);
+                        if (previousVertex != null)
+                        {
+                            Edge edge = AddNewEdge(previousVertex, ver);
+                            edge.Polygon = newPolygon;
+                            newPolygon.Edges.Add(edge);
+                        }
+                        previousVertex = ver;
+                        MousePos = e.Location;
+                        break;
+
+                    case States.Removing:
+                        SelectedVertex = null;
+                        foreach (Vertex v in vertices)
+                        {
+                            if (Algorithms.Distance(pos, v.Position) <= v.Size / 2)
+                            {
+                                SelectedPolygon = null;
+                                SelectedVertex = v;
+                                SelectedEdge = null;
+                                MousePos = pos;
+                                break;
+                            }
+                        }
+                        if (SelectedVertex != null)
+                        {
+                            Polygon poly = SelectedVertex.Polygon;
+                            if (poly.Vertices.Count == 3)
+                            {
+                                DeletePolygon(poly);
+                            }
+                            else
+                            {
+                                (Vertex v1, Vertex v2) = SelectedVertex.GetNeighbors();
+
+                                while (SelectedVertex.Edges.Count != 0)
+                                {
+                                    RemoveEdge(SelectedVertex.Edges[0]);
+                                }
+                                int index = poly.Edges.IndexOf(v2.Edges[0]);
+                                Edge newEdge = AddNewEdge(v1, v2);
+                                newEdge.Color = poly.Color;
+                                poly.Edges.Insert(index, newEdge);
+                                newEdge.Polygon = poly;
+                                poly.Vertices.Remove(SelectedVertex);
+                                vertices.Remove(SelectedVertex);
+                                SelectedVertex = null;
+                            }
+                        }
+                        break;
+                }
             }
+
             RefreshCanvas();
         }
 
         private void CanvasMove(object sender, MouseEventArgs e)
         {
+            if (e.Button == MouseButtons.Right && isLightOn)
+            {
+                float x = -e.Location.X + BitmapCanvas.Width / 2;
+                float y = -e.Location.Y + BitmapCanvas.Height / 2;
+                lightV = new Point((int)x, (int)y);
+                x /= (float)(BitmapCanvas.Width / 2);
+                y /= (float)(BitmapCanvas.Height / 2);
+
+                lightIconPos = e.Location;
+                L.X = x;
+                L.Y = y;
+                L.Z = height;
+                L = Vector3.Normalize(L);
+                RefreshCanvas();
+            }
+
             if (e.Button == MouseButtons.Left)
             {
                 int diffX = MousePos.X - e.X;
@@ -656,11 +711,6 @@ namespace Zadanie2
             {
                 State = States.AddingOnEdge;
             }
-        }
-
-        private void Form1_Resize(object sender, EventArgs e)
-        {
-            RefreshCanvas();
         }
 
         private void AnimateCheckBoxChanged(object sender, EventArgs e)
@@ -861,7 +911,10 @@ namespace Zadanie2
                                 N = Vector3.Normalize(N);
                                 float K = Vector3.Dot(N, new Vector3(0, 0, 1));
                                 Vector3 Rv = 2 * K * N - L;
-                                double cosN = Algorithms.Cos(N);
+
+                                double cosN = 0;
+                                if (isLightOn) cosN = Algorithms.Cos(N, L);
+                                else cosN = Algorithms.Cos(N);
                                 double cosVR = Algorithms.Cos(V, Rv);
                                 float R = (float)(Kd * lightColorVector.X * colors[c].R / 255f * cosN + Ks * lightColorVector.X * colors[c].R / 255f * cosVR);
                                 float G = (float)(Kd * lightColorVector.Y * colors[c].G / 255f * cosN + Ks * lightColorVector.Y * colors[c].G / 255f * cosVR);
@@ -977,6 +1030,7 @@ namespace Zadanie2
         private void LampCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             isLightOn = LampCheckBox.Checked;
+            RefreshCanvas();
         }
 
         private void SetColorButton_Click(object sender, EventArgs e)
@@ -998,7 +1052,14 @@ namespace Zadanie2
 
         private void HeightSliderChanged(object sender, EventArgs e)
         {
+            height = HeightSlider.Value / 10f;
+            HeightValue.Text = height.ToString();
+            L.Z = height;
 
+            L.X = (float)(lightV.X / (BitmapCanvas.Width / 2f));
+            L.Y = (float)(lightV.Y / (BitmapCanvas.Height / 2f));
+            L = Vector3.Normalize(L);
+            RefreshCanvas();
         }
     }
 }
