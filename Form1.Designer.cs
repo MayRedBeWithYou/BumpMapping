@@ -114,8 +114,8 @@
             // 
             this.splitContainer1.Panel2.AutoScroll = true;
             this.splitContainer1.Panel2.Controls.Add(this.panel1);
-            this.splitContainer1.Size = new System.Drawing.Size(744, 541);
-            this.splitContainer1.SplitterDistance = 534;
+            this.splitContainer1.Size = new System.Drawing.Size(1264, 681);
+            this.splitContainer1.SplitterDistance = 1056;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -127,7 +127,7 @@
             this.BitmapCanvas.Location = new System.Drawing.Point(0, 0);
             this.BitmapCanvas.Margin = new System.Windows.Forms.Padding(0);
             this.BitmapCanvas.Name = "BitmapCanvas";
-            this.BitmapCanvas.Size = new System.Drawing.Size(534, 541);
+            this.BitmapCanvas.Size = new System.Drawing.Size(1056, 681);
             this.BitmapCanvas.TabIndex = 0;
             this.BitmapCanvas.TabStop = false;
             this.BitmapCanvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.CanvasMouseDown);
@@ -140,7 +140,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(208, 541);
+            this.panel1.Size = new System.Drawing.Size(206, 681);
             this.panel1.TabIndex = 0;
             // 
             // splitContainer2
@@ -159,7 +159,7 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer3);
-            this.splitContainer2.Size = new System.Drawing.Size(191, 739);
+            this.splitContainer2.Size = new System.Drawing.Size(189, 739);
             this.splitContainer2.SplitterDistance = 155;
             this.splitContainer2.TabIndex = 23;
             // 
@@ -173,7 +173,7 @@
             this.PolygonToolsBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PolygonToolsBox.Location = new System.Drawing.Point(0, 0);
             this.PolygonToolsBox.Name = "PolygonToolsBox";
-            this.PolygonToolsBox.Size = new System.Drawing.Size(191, 155);
+            this.PolygonToolsBox.Size = new System.Drawing.Size(189, 155);
             this.PolygonToolsBox.TabIndex = 0;
             this.PolygonToolsBox.TabStop = false;
             this.PolygonToolsBox.Text = "Własne wielokąty";
@@ -186,7 +186,7 @@
             this.RemoveVertexRadioButton.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
             this.RemoveVertexRadioButton.Name = "RemoveVertexRadioButton";
             this.RemoveVertexRadioButton.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.RemoveVertexRadioButton.Size = new System.Drawing.Size(185, 27);
+            this.RemoveVertexRadioButton.Size = new System.Drawing.Size(183, 27);
             this.RemoveVertexRadioButton.TabIndex = 31;
             this.RemoveVertexRadioButton.Text = "Usuń wierzchołek";
             this.RemoveVertexRadioButton.UseVisualStyleBackColor = true;
@@ -200,7 +200,7 @@
             this.AddPolygonRadioButton.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
             this.AddPolygonRadioButton.Name = "AddPolygonRadioButton";
             this.AddPolygonRadioButton.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.AddPolygonRadioButton.Size = new System.Drawing.Size(185, 27);
+            this.AddPolygonRadioButton.Size = new System.Drawing.Size(183, 27);
             this.AddPolygonRadioButton.TabIndex = 30;
             this.AddPolygonRadioButton.Text = "Dodaj nowy wielokąt";
             this.AddPolygonRadioButton.UseVisualStyleBackColor = true;
@@ -214,7 +214,7 @@
             this.AddVertexRadioButton.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
             this.AddVertexRadioButton.Name = "AddVertexRadioButton";
             this.AddVertexRadioButton.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.AddVertexRadioButton.Size = new System.Drawing.Size(185, 27);
+            this.AddVertexRadioButton.Size = new System.Drawing.Size(183, 27);
             this.AddVertexRadioButton.TabIndex = 29;
             this.AddVertexRadioButton.Text = "Dodaj wierzchołek na kraw.";
             this.AddVertexRadioButton.UseVisualStyleBackColor = true;
@@ -228,7 +228,7 @@
             this.SelectFigureRadioButton.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
             this.SelectFigureRadioButton.Name = "SelectFigureRadioButton";
             this.SelectFigureRadioButton.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.SelectFigureRadioButton.Size = new System.Drawing.Size(185, 27);
+            this.SelectFigureRadioButton.Size = new System.Drawing.Size(183, 27);
             this.SelectFigureRadioButton.TabIndex = 28;
             this.SelectFigureRadioButton.Text = "Zaznacz figurę";
             this.SelectFigureRadioButton.UseVisualStyleBackColor = true;
@@ -243,7 +243,7 @@
             this.SelectVertexRadioButton.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
             this.SelectVertexRadioButton.Name = "SelectVertexRadioButton";
             this.SelectVertexRadioButton.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.SelectVertexRadioButton.Size = new System.Drawing.Size(185, 27);
+            this.SelectVertexRadioButton.Size = new System.Drawing.Size(183, 27);
             this.SelectVertexRadioButton.TabIndex = 27;
             this.SelectVertexRadioButton.TabStop = true;
             this.SelectVertexRadioButton.Text = "Zaznacz wierzchołek/krawędź";
@@ -266,7 +266,7 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
-            this.splitContainer3.Size = new System.Drawing.Size(191, 580);
+            this.splitContainer3.Size = new System.Drawing.Size(189, 580);
             this.splitContainer3.SplitterDistance = 115;
             this.splitContainer3.TabIndex = 0;
             // 
@@ -279,7 +279,7 @@
             this.AnimationBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.AnimationBox.Location = new System.Drawing.Point(0, 0);
             this.AnimationBox.Name = "AnimationBox";
-            this.AnimationBox.Size = new System.Drawing.Size(191, 115);
+            this.AnimationBox.Size = new System.Drawing.Size(189, 115);
             this.AnimationBox.TabIndex = 0;
             this.AnimationBox.TabStop = false;
             this.AnimationBox.Text = "Animacja";
@@ -289,7 +289,7 @@
             this.ClearRandomsButton.Dock = System.Windows.Forms.DockStyle.Top;
             this.ClearRandomsButton.Location = new System.Drawing.Point(3, 86);
             this.ClearRandomsButton.Name = "ClearRandomsButton";
-            this.ClearRandomsButton.Size = new System.Drawing.Size(185, 25);
+            this.ClearRandomsButton.Size = new System.Drawing.Size(183, 25);
             this.ClearRandomsButton.TabIndex = 9;
             this.ClearRandomsButton.Text = "Wyczyść losowe wielokąty";
             this.ClearRandomsButton.UseVisualStyleBackColor = true;
@@ -303,7 +303,7 @@
             this.AnimateCheckBox.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this.AnimateCheckBox.Name = "AnimateCheckBox";
             this.AnimateCheckBox.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.AnimateCheckBox.Size = new System.Drawing.Size(185, 27);
+            this.AnimateCheckBox.Size = new System.Drawing.Size(183, 27);
             this.AnimateCheckBox.TabIndex = 8;
             this.AnimateCheckBox.Text = "Animuj";
             this.AnimateCheckBox.UseVisualStyleBackColor = true;
@@ -319,7 +319,7 @@
             this.PolygonSpeedSlider.MaximumSize = new System.Drawing.Size(200, 30);
             this.PolygonSpeedSlider.Minimum = 10;
             this.PolygonSpeedSlider.Name = "PolygonSpeedSlider";
-            this.PolygonSpeedSlider.Size = new System.Drawing.Size(185, 30);
+            this.PolygonSpeedSlider.Size = new System.Drawing.Size(183, 30);
             this.PolygonSpeedSlider.SmallChange = 10;
             this.PolygonSpeedSlider.TabIndex = 7;
             this.PolygonSpeedSlider.TickFrequency = 10;
@@ -353,7 +353,7 @@
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.LightBox);
-            this.splitContainer4.Size = new System.Drawing.Size(191, 461);
+            this.splitContainer4.Size = new System.Drawing.Size(189, 461);
             this.splitContainer4.SplitterDistance = 200;
             this.splitContainer4.TabIndex = 0;
             // 
@@ -371,7 +371,7 @@
             this.FillOptionsBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FillOptionsBox.Location = new System.Drawing.Point(0, 0);
             this.FillOptionsBox.Name = "FillOptionsBox";
-            this.FillOptionsBox.Size = new System.Drawing.Size(191, 200);
+            this.FillOptionsBox.Size = new System.Drawing.Size(189, 200);
             this.FillOptionsBox.TabIndex = 0;
             this.FillOptionsBox.TabStop = false;
             this.FillOptionsBox.Text = "Wypełnienie";
@@ -381,7 +381,7 @@
             this.LoadMapButton.Dock = System.Windows.Forms.DockStyle.Top;
             this.LoadMapButton.Location = new System.Drawing.Point(3, 168);
             this.LoadMapButton.Name = "LoadMapButton";
-            this.LoadMapButton.Size = new System.Drawing.Size(185, 25);
+            this.LoadMapButton.Size = new System.Drawing.Size(183, 25);
             this.LoadMapButton.TabIndex = 11;
             this.LoadMapButton.Text = "Wczytaj mapę";
             this.LoadMapButton.UseVisualStyleBackColor = true;
@@ -414,7 +414,7 @@
             this.LoadTextureButton.Location = new System.Drawing.Point(3, 120);
             this.LoadTextureButton.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
             this.LoadTextureButton.Name = "LoadTextureButton";
-            this.LoadTextureButton.Size = new System.Drawing.Size(185, 25);
+            this.LoadTextureButton.Size = new System.Drawing.Size(183, 25);
             this.LoadTextureButton.TabIndex = 8;
             this.LoadTextureButton.Text = "Wczytaj teksturę";
             this.LoadTextureButton.UseVisualStyleBackColor = true;
@@ -440,7 +440,7 @@
             this.BumpRadioButton.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
             this.BumpRadioButton.Name = "BumpRadioButton";
             this.BumpRadioButton.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.BumpRadioButton.Size = new System.Drawing.Size(185, 27);
+            this.BumpRadioButton.Size = new System.Drawing.Size(183, 27);
             this.BumpRadioButton.TabIndex = 4;
             this.BumpRadioButton.Text = "Tekstura + bump map";
             this.BumpRadioButton.UseVisualStyleBackColor = true;
@@ -464,7 +464,7 @@
             this.TextureRadioButton.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
             this.TextureRadioButton.Name = "TextureRadioButton";
             this.TextureRadioButton.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.TextureRadioButton.Size = new System.Drawing.Size(185, 27);
+            this.TextureRadioButton.Size = new System.Drawing.Size(183, 27);
             this.TextureRadioButton.TabIndex = 1;
             this.TextureRadioButton.Text = "Tekstura";
             this.TextureRadioButton.UseVisualStyleBackColor = true;
@@ -479,7 +479,7 @@
             this.VertexColorRadioButton.Margin = new System.Windows.Forms.Padding(10, 5, 0, 5);
             this.VertexColorRadioButton.Name = "VertexColorRadioButton";
             this.VertexColorRadioButton.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.VertexColorRadioButton.Size = new System.Drawing.Size(185, 27);
+            this.VertexColorRadioButton.Size = new System.Drawing.Size(183, 27);
             this.VertexColorRadioButton.TabIndex = 0;
             this.VertexColorRadioButton.TabStop = true;
             this.VertexColorRadioButton.Text = "Z wierzchołków (interpolacja)";
@@ -503,7 +503,7 @@
             this.LightBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.LightBox.Location = new System.Drawing.Point(0, 0);
             this.LightBox.Name = "LightBox";
-            this.LightBox.Size = new System.Drawing.Size(191, 257);
+            this.LightBox.Size = new System.Drawing.Size(189, 257);
             this.LightBox.TabIndex = 0;
             this.LightBox.TabStop = false;
             this.LightBox.Text = "Oświetlenie";
@@ -523,7 +523,7 @@
             this.HeightSlider.Location = new System.Drawing.Point(3, 172);
             this.HeightSlider.Minimum = 1;
             this.HeightSlider.Name = "HeightSlider";
-            this.HeightSlider.Size = new System.Drawing.Size(185, 45);
+            this.HeightSlider.Size = new System.Drawing.Size(183, 45);
             this.HeightSlider.TabIndex = 50;
             this.HeightSlider.TickFrequency = 10;
             this.HeightSlider.TickStyle = System.Windows.Forms.TickStyle.Both;
@@ -583,7 +583,7 @@
             this.KsSlider.Location = new System.Drawing.Point(3, 114);
             this.KsSlider.Maximum = 100;
             this.KsSlider.Name = "KsSlider";
-            this.KsSlider.Size = new System.Drawing.Size(185, 45);
+            this.KsSlider.Size = new System.Drawing.Size(183, 45);
             this.KsSlider.TabIndex = 4;
             this.KsSlider.TickFrequency = 10;
             this.KsSlider.TickStyle = System.Windows.Forms.TickStyle.Both;
@@ -606,7 +606,7 @@
             this.KdSlider.Location = new System.Drawing.Point(3, 56);
             this.KdSlider.Maximum = 100;
             this.KdSlider.Name = "KdSlider";
-            this.KdSlider.Size = new System.Drawing.Size(185, 45);
+            this.KdSlider.Size = new System.Drawing.Size(183, 45);
             this.KdSlider.TabIndex = 2;
             this.KdSlider.TickFrequency = 10;
             this.KdSlider.TickStyle = System.Windows.Forms.TickStyle.Both;
@@ -630,7 +630,7 @@
             this.LampCheckBox.Location = new System.Drawing.Point(3, 16);
             this.LampCheckBox.Name = "LampCheckBox";
             this.LampCheckBox.Padding = new System.Windows.Forms.Padding(10, 5, 0, 5);
-            this.LampCheckBox.Size = new System.Drawing.Size(185, 27);
+            this.LampCheckBox.Size = new System.Drawing.Size(183, 27);
             this.LampCheckBox.TabIndex = 0;
             this.LampCheckBox.Text = "Włącz własną lampę";
             this.LampCheckBox.UseVisualStyleBackColor = true;
@@ -640,7 +640,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(744, 541);
+            this.ClientSize = new System.Drawing.Size(1264, 681);
             this.Controls.Add(this.splitContainer1);
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(2);

@@ -83,13 +83,9 @@ namespace Zadanie2
 
         private Vector3 lightColorVector = new Vector3(1, 1, 1);
 
-        private Vector3 L = new Vector3(0, 0, 1);
-
         private float height = 0.5f;
 
-        private Point lightIconPos = new Point(0, 0);
-
-        private Point lightV = new Point(0, 0);
+        private Point lightPos;
 
         private readonly Vector3 V = new Vector3(0, 0, 1);
 
@@ -157,6 +153,8 @@ namespace Zadanie2
             ColorPictureBox.Refresh();
 
             HeightValue.Text = height.ToString();
+
+            lightPos = new Point(BitmapCanvas.Width / 2, BitmapCanvas.Height / 2);
 
             movementTimer.Interval = 1600 / speed;
             movementTimer.Tick += MovePolygons;
@@ -341,8 +339,8 @@ namespace Zadanie2
                 using (Graphics g = Graphics.FromImage(bitmap))
                 {
                     SolidBrush b = new SolidBrush(Color.Yellow);
-
-                    g.FillEllipse(b, lightIconPos.X - 9, lightIconPos.Y - 9, 21, 21);
+                    g.FillEllipse(b, lightPos.X - 9, lightPos.Y - 9, 21, 21);
+                    g.DrawEllipse(new Pen(new SolidBrush(Color.Black)), lightPos.X - 9, lightPos.Y - 9, 21, 21);
                 }
             }
 
@@ -354,17 +352,7 @@ namespace Zadanie2
         {
             if (e.Button == MouseButtons.Right && isLightOn)
             {
-                float x = -e.Location.X + BitmapCanvas.Width / 2;
-                float y = -e.Location.Y + BitmapCanvas.Height / 2;
-                lightV = new Point((int)x, (int)y);
-                x /= (float)(BitmapCanvas.Width / 2);
-                y /= (float)(BitmapCanvas.Height / 2);
-
-                lightIconPos = e.Location;
-                L.X = x;
-                L.Y = y;
-                L.Z = height;
-                L = Vector3.Normalize(L);
+                lightPos = e.Location;
                 RefreshCanvas();
             }
 
@@ -586,17 +574,7 @@ namespace Zadanie2
         {
             if (e.Button == MouseButtons.Right && isLightOn)
             {
-                float x = -e.Location.X + BitmapCanvas.Width / 2;
-                float y = -e.Location.Y + BitmapCanvas.Height / 2;
-                lightV = new Point((int)x, (int)y);
-                x /= (float)(BitmapCanvas.Width / 2);
-                y /= (float)(BitmapCanvas.Height / 2);
-
-                lightIconPos = e.Location;
-                L.X = x;
-                L.Y = y;
-                L.Z = height;
-                L = Vector3.Normalize(L);
+                lightPos = e.Location;
                 RefreshCanvas();
             }
 
@@ -909,12 +887,17 @@ namespace Zadanie2
                                 float Nz = (normal.B - 127) / 128f;
                                 Vector3 N = new Vector3(Nx, Ny, Nz);
                                 N = Vector3.Normalize(N);
-                                float K = Vector3.Dot(N, new Vector3(0, 0, 1));
-                                Vector3 Rv = 2 * K * N - L;
+                                Vector3 L = new Vector3(0, 0, 1);
+                                if (isLightOn)
+                                {
+                                    L = new Vector3((c + intersections[i].X - lightPos.X) / (float)BitmapCanvas.Width, (index - lightPos.Y) / (float)BitmapCanvas.Height, height);
+                                    L = Vector3.Normalize(L);
+                                }
 
                                 double cosN = 0;
-                                if (isLightOn) cosN = Algorithms.Cos(N, L);
-                                else cosN = Algorithms.Cos(N);
+                                cosN = Algorithms.Cos(N, L);
+                                float K = Vector3.Dot(N, new Vector3(0, 0, 1));
+                                Vector3 Rv = 2 * K * N - L;
                                 double cosVR = Algorithms.Cos(V, Rv);
                                 float R = (float)(Kd * lightColorVector.X * colors[c].R / 255f * cosN + Ks * lightColorVector.X * colors[c].R / 255f * cosVR);
                                 float G = (float)(Kd * lightColorVector.Y * colors[c].G / 255f * cosN + Ks * lightColorVector.Y * colors[c].G / 255f * cosVR);
@@ -1054,11 +1037,6 @@ namespace Zadanie2
         {
             height = HeightSlider.Value / 10f;
             HeightValue.Text = height.ToString();
-            L.Z = height;
-
-            L.X = (float)(lightV.X / (BitmapCanvas.Width / 2f));
-            L.Y = (float)(lightV.Y / (BitmapCanvas.Height / 2f));
-            L = Vector3.Normalize(L);
             RefreshCanvas();
         }
     }
