@@ -341,6 +341,11 @@ namespace Zadanie2
             return Color.FromArgb(255, (int)(red / sum), (int)(green / sum), (int)(blue / sum));
         }
 
+        public static double EdgeLen(Edge e)
+        {
+            return Distance(e.From.Position, e.To.Position);
+        }
+
         public static double Cos(Vector3 N)
         {
             return Cos(N, new Vector3(0, 0, 1));

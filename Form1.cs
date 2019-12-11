@@ -833,7 +833,7 @@ namespace Zadanie2
                 AET.AddRange(EdgeList[index]);
                 AET.Sort((e1, e2) => (int)(e1.xMin - e2.xMin));
                 int x = (int)AET[0].xMin;
-                List<Point> intersections = new List<Point>();
+                List<(Point p, Edge e)> ps = new List<(Point, Edge)>();
                 Point prev = Point.Empty;
                 Point p = Point.Empty;
                 EdgeData prevData = new EdgeData();
@@ -849,39 +849,51 @@ namespace Zadanie2
                     }
                     prevData = data;
                     prev = p;
-                    intersections.Add(p);
+                    ps.Add((p, data.edge));
                 }
-                intersections.Sort((p1, p2) => p1.X - p2.X);
+                ps.Sort((p1, p2) => p1.p.X - p2.p.X);
 
-                if (intersections.Count % 2 == 1) intersections.RemoveAt(intersections.Count - 1);
+                if (ps.Count % 2 == 1) ps.RemoveAt(ps.Count - 1);
 
-                for (int i = 0; i < intersections.Count; i += 2)
+
+
+                for (int i = 0; i < ps.Count; i += 2)
                 {
-                    Color[] colors = new Color[intersections[i + 1].X - intersections[i].X + 1];
+                    Color[] colors = new Color[ps[i + 1].p.X - ps[i].p.X + 1];
                     switch (filling)
                     {
                         case Filling.Color:
-                            Parallel.For(0, intersections[i + 1].X - intersections[i].X + 1, c =>
+                            double prop1 = Algorithms.Distance(ps[i].e.From.Position, ps[i].p) / Algorithms.EdgeLen(ps[i].e);
+                            double prop2 = Algorithms.Distance(ps[i + 1].e.From.Position, ps[i + 1].p) / Algorithms.EdgeLen(ps[i + 1].e);
+                            Color lf = ps[i].e.From.Color;
+                            Color lt = ps[i].e.To.Color;
+                            Color rf = ps[i + 1].e.From.Color;
+                            Color rt = ps[i + 1].e.To.Color;
+                            Color l = Color.FromArgb(lf.R + (int)(prop1 * (lt.R - lf.R)), lf.G + (int)(prop1 * (lt.G - lf.G)), lf.B + (int)(prop1 * (lt.B - lf.B)));
+                            Color r = Color.FromArgb(rf.R + (int)(prop1 * (rt.R - rf.R)), rf.G + (int)(prop1 * (rt.G - rf.G)), rf.B + (int)(prop1 * (rt.B - rf.B)));
+
+                            Parallel.For(0, ps[i + 1].p.X - ps[i].p.X + 1, c =>
                             {
-                                if (c + intersections[i].X >= 0)
+                                if (c + ps[i].p.X >= 0)
                                 {
-                                    colors[c] = Algorithms.CalculateColor(parent, new Point(c + intersections[i].X, index));
+                                    double prop = Algorithms.Distance(ps[i].p, new Point(c + ps[i].p.X, index))/Algorithms.Distance(ps[i].p, ps[i+1].p);
+                                    colors[c] = Color.FromArgb(l.R + (int)(prop1 * (r.R - l.R)), l.G + (int)(prop1 * (r.G - l.G)), l.B + (int)(prop1 * (r.B - l.B)));
                                 }
                             });
                             break;
                         case Filling.Texture:
-                            for (int c = 0; c < intersections[i + 1].X - intersections[i].X + 1; c++)
+                            for (int c = 0; c < ps[i + 1].p.X - ps[i].p.X + 1; c++)
                             {
-                                if (c + intersections[i].X < 0) continue;
-                                colors[c] = texture.GetPixel(c + intersections[i].X, index);
+                                if (c + ps[i].p.X < 0) continue;
+                                colors[c] = texture.GetPixel(c + ps[i].p.X, index);
                             }
                             break;
                         case Filling.Bump:
-                            for (int c = 0; c < intersections[i + 1].X - intersections[i].X + 1; c++)
+                            for (int c = 0; c < ps[i + 1].p.X - ps[i].p.X + 1; c++)
                             {
-                                if (c + intersections[i].X < 0) continue;
-                                colors[c] = texture.GetPixel(c + intersections[i].X, index);
-                                Color normal = bumpMap.GetPixel(c + intersections[i].X, index);
+                                if (c + ps[i].p.X < 0) continue;
+                                colors[c] = texture.GetPixel(c + ps[i].p.X, index);
+                                Color normal = bumpMap.GetPixel(c + ps[i].p.X, index);
                                 float Nx = (normal.R - 127) / 128f;
                                 float Ny = (normal.G - 127) / 128f;
                                 float Nz = (normal.B - 127) / 128f;
@@ -890,7 +902,7 @@ namespace Zadanie2
                                 Vector3 L = new Vector3(0, 0, 1);
                                 if (isLightOn)
                                 {
-                                    L = new Vector3((c + intersections[i].X - lightPos.X) / (float)BitmapCanvas.Width, (index - lightPos.Y) / (float)BitmapCanvas.Height, height);
+                                    L = new Vector3((c + ps[i].p.X - lightPos.X) / (float)BitmapCanvas.Width, (index - lightPos.Y) / (float)BitmapCanvas.Height, height);
                                     L = Vector3.Normalize(L);
                                 }
 
@@ -907,9 +919,9 @@ namespace Zadanie2
                             break;
                     }
 
-                    for (int c = 0; c <= intersections[i + 1].X - intersections[i].X; c++)
+                    for (int c = 0; c <= ps[i + 1].p.X - ps[i].p.X; c++)
                     {
-                        bitmap.SetPixel(intersections[i].X + c, index, colors[c]);
+                        bitmap.SetPixel(ps[i].p.X + c, index, colors[c]);
                     }
                 }
                 count -= AET.RemoveAll(data => data.yMax == index);
